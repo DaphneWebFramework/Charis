@@ -1,44 +1,31 @@
-# TemplateLibrary
+# Charis
 
 ![](assets/masthead.png)
 
-> <sub><sup>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere ligula.</sup></sub>
+> <sub><sup>In Greek mythology, Charis is the goddess of grace, beauty, and elegance.</sup></sub>
 
 ## Overview
 
-Duis vulputate vitae erat vel efficitur. Cras sed enim a erat tincidunt ornare sed a eros. Suspendisse vel venenatis nulla. Vivamus aliquam congue elit laoreet.
-
-## Configuration
-
-> You can remove this section after completing the instructions.
-
-When starting a new library based on this template, you must add a **Secret** token in your library repository so that the automated documentation workflow included in this template (`generate-documentation.yml`) can push updates to the central [**Documentation**](https://github.com/DaphneWebFramework/Documentation) repo. Follow the steps below:
-
-- Navigate to **Settings** for the newly derived repository.
-- Click **Secrets and variables** > **Actions**.
-- Click **New repository secret**.
-- For **Name**, enter `PERSONAL_ACCESS_TOKEN`.
-- For **Secret**, paste the required token.
-- Click **Add secret**.
+**Charis** is a library for defining HTML elements and reusable components using a declarative, server-side rendering approach. Built on top of [Bootstrap 5](https://getbootstrap.com/), Charis simplifies the creation of modern and consistent user interfaces.
 
 ## Installation
 
 ### Adding
 
 ```
-git submodule add https://github.com/DaphneWebFramework/TemplateLibrary.git source/classes/TemplateLibrary
+git submodule add https://github.com/DaphneWebFramework/Charis.git source/classes/Charis
 ```
 
 ### Updating
 
 ```
-git submodule update --remote --merge source/classes/TemplateLibrary
+git submodule update --remote --merge source/classes/Charis
 ```
 
 ## See Also
 
-- [Tests](https://github.com/DaphneWebFramework/TemplateLibraryTest)
-- [Documentation](https://github.com/DaphneWebFramework/Documentation/blob/main/TemplateLibrary/README.md)
+- [Tests](https://github.com/DaphneWebFramework/CharisTest)
+- [Documentation](https://github.com/DaphneWebFramework/Documentation/blob/main/Charis/README.md)
 
 ## License
 

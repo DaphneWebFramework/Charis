@@ -13,10 +13,20 @@
 namespace Charis;
 
 /**
- * Represents an abstract base for HTML-like components.
+ * A class for defining and rendering HTML components on the server side.
  */
-abstract class Component implements \Stringable
+class Component implements \Stringable
 {
+    /**
+     * Regex pattern for validating HTML tag names.
+     */
+    private const TAG_NAME_PATTERN = '/^[a-zA-Z][a-zA-Z0-9\-]*$/';
+
+    /**
+     * Regex pattern for validating HTML attribute names.
+     */
+    private const ATTRIBUTE_NAME_PATTERN = '/^[a-zA-Z][a-zA-Z0-9\:\-\.\_]*$/';
+
     /**
      * The HTML tag name for this component (e.g., "div", "span").
      *
@@ -27,10 +37,11 @@ abstract class Component implements \Stringable
     /**
      * An associative array of HTML attributes, where keys are attribute names
      * and values can be scalar types (`bool`, `int`, `float`, or `string`).
+     * Can be `null` if no attributes are defined.
      *
-     * @var array<string, bool|int|float|string>
+     * @var array<string, bool|int|float|string>|null
      */
-    private readonly array $attributes;
+    private readonly ?array $attributes;
 
     /**
      * The content of the component, which can be a string, a single `Component`
@@ -48,15 +59,18 @@ abstract class Component implements \Stringable
      */
     private readonly bool $isSelfClosing;
 
+    #region public -------------------------------------------------------------
+
     /**
-     * Creates a new Component instance.
+     * Constructs a new instance.
      *
      * @param string $tagName
      *   The HTML tag name for this component (e.g., "div", "span").
-     * @param array<string, bool|int|float|string> $attributes
+     * @param array<string, bool|int|float|string>|null $attributes
      *   (Optional) An associative array of HTML attributes, where keys are
      *   attribute names and values can be scalar types (`bool`, `int`, `float`,
-     *   or `string`). Defaults to an empty array.
+     *   or `string`). Pass `null` or an empty array to indicate no attributes.
+     *   Defaults to `null`.
      * @param string|Component|array<string|Component>|null $content
      *   (Optional) The content of the component, which can be a string, a
      *   single `Component` instance, an array of strings and `Component`
@@ -65,9 +79,9 @@ abstract class Component implements \Stringable
      *   (Optional) Indicates whether this component is self-closing (e.g.,
      *   `<img />`). Defaults to `false`.
      */
-    protected function __construct(
+    public function __construct(
         string $tagName,
-        array $attributes = [],
+        ?array $attributes = null,
         string|Component|array|null $content = null,
         bool $isSelfClosing = false)
     {
@@ -77,20 +91,20 @@ abstract class Component implements \Stringable
         $this->isSelfClosing = $isSelfClosing;
     }
 
-    #region public -------------------------------------------------------------
-
     /**
      * Converts the component to its HTML string representation.
+     *
+     * This method simply calls the `Render` method, performs no additional
+     * processing.
      *
      * @return string
      *   The HTML string representation of the component.
      * @throws \InvalidArgumentException
-     *   If the tag name is empty, contains invalid characters, an attribute
-     *   name is not a string, is empty, an attribute value is not scalar, or
-     *   the content array contains an item that is neither a string nor a
-     *   `Component` instance.
+     *   If the `Render` method throws this exception.
      * @throws \LogicException
-     *   If the component is self-closing but has non-empty content.
+     *   If the `Render` method throws this exception.
+     *
+     * @see Render
      */
     public function __toString(): string
     {
@@ -112,10 +126,7 @@ abstract class Component implements \Stringable
      */
     public function Render(): string
     {
-        if ($this->tagName === '') {
-            throw new \InvalidArgumentException('Tag name cannot be empty.');
-        }
-        if (!\preg_match('/^[a-zA-Z][a-zA-Z0-9\-]*$/', $this->tagName)) {
+        if (!\preg_match(self::TAG_NAME_PATTERN, $this->tagName)) {
             throw new \InvalidArgumentException('Invalid tag name.');
         }
         $html = "<{$this->tagName}";
@@ -125,8 +136,7 @@ abstract class Component implements \Stringable
         }
         if ($this->isSelfClosing) {
             if (!empty($this->content)) {
-                throw new \LogicException(
-                    'Self-closing components cannot have content.');
+                throw new \LogicException('Self-closing components cannot have content.');
             }
             $html .= '/>';
         } else {
@@ -154,29 +164,32 @@ abstract class Component implements \Stringable
      */
     private function renderAttributes(): string
     {
+        if ($this->attributes === null) {
+            return '';
+        }
         $items = [];
         foreach ($this->attributes as $name => $value) {
-            if (!is_string($name)) {
-                throw new \InvalidArgumentException(
-                    'Attribute name must be a string.');
+            if (!\is_string($name)) {
+                throw new \InvalidArgumentException('Attribute name must be a string.');
             }
-            if ($name === '') {
-                throw new \InvalidArgumentException(
-                    'Attribute name cannot be empty.');
+            if (!\preg_match(self::ATTRIBUTE_NAME_PATTERN, $name)) {
+                throw new \InvalidArgumentException('Invalid attribute name.');
             }
-            if (!is_scalar($value)) {
-                throw new \InvalidArgumentException(
-                    'Attribute value must be scalar.');
+            if (!\is_scalar($value)) {
+                throw new \InvalidArgumentException('Attribute value must be scalar.');
             }
             if ($value === true) {
-                $items[] = self::encode($name);
+                $items[] = $name;
             } elseif ($value !== false) {
-                $name = self::encode($name);
-                $value = self::encode((string)$value);
+                if (\is_string($value)) {
+                    $value = \htmlspecialchars($value, \ENT_QUOTES | \ENT_HTML5);
+                } else {
+                    $value = (string)$value;
+                }
                 $items[] = "$name=\"$value\"";
             }
         }
-        return implode(' ', $items);
+        return \implode(' ', $items);
     }
 
     /**
@@ -192,32 +205,19 @@ abstract class Component implements \Stringable
     {
         if ($this->content === null) {
             return '';
-        } elseif (is_array($this->content)) {
+        } elseif (\is_array($this->content)) {
             $items = [];
             foreach ($this->content as $item) {
-                if (!is_string($item) && !$item instanceof Component) {
+                if (!\is_string($item) && !$item instanceof Component) {
                     throw new \InvalidArgumentException(
                         'Content array must only contain strings or Component instances.');
                 }
                 $items[] = (string)$item;
             }
-            return implode('', $items);
+            return \implode('', $items);
         } else {
             return (string)$this->content;
         }
-    }
-
-    /**
-     * Encodes a string for safe HTML output.
-     *
-     * @param string $string
-     *   The string to encode.
-     * @return string
-     *   The encoded string.
-     */
-    private static function encode(string $string): string
-    {
-        return htmlspecialchars($string, ENT_QUOTES | ENT_HTML5);
     }
 
     #endregion private

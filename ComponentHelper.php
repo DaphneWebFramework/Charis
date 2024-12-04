@@ -18,6 +18,38 @@ namespace Charis;
 class ComponentHelper
 {
     /**
+     * Resolves attributes by merging defaults, resolving classes, and handling
+     * mutually exclusive class groups.
+     *
+     * @param array<string, bool|int|float|string> $defaultAttributes
+     *   Default attributes defined by the component.
+     * @param array<string, bool|int|float|string>|null $userAttributes
+     *   (Optional) Attributes provided by the user.
+     * @param string[] $mutuallyExclusiveClassGroups
+     *   (Optional) Mutually exclusive class groups to resolve conflicts.
+     * @return array<string, bool|int|float|string>
+     *   Resolved attributes ready for rendering.
+     */
+    public static function MergeAttributes(
+        array $defaultAttributes,
+        ?array $userAttributes = null,
+        array $mutuallyExclusiveClassGroups = []
+        ): array
+    {
+        $userAttributes ??= [];
+        if (\array_key_exists('class', $defaultAttributes) ||
+            \array_key_exists('class', $userAttributes))
+        {
+            $userAttributes['class'] = self::ResolveClasses(
+                $defaultAttributes['class'] ?? '',
+                $userAttributes['class'] ?? '',
+                $mutuallyExclusiveClassGroups
+            );
+        }
+        return array_merge($defaultAttributes, $userAttributes);
+    }
+
+    /**
      * Resolve classes by merging default classes with user-defined classes,
      * handling duplicates and managing mutually exclusive groups.
      *

@@ -46,7 +46,7 @@ class ComponentHelper
                 $mutuallyExclusiveClassGroups
             );
         }
-        return array_merge($defaultAttributes, $userAttributes);
+        return \array_merge($defaultAttributes, $userAttributes);
     }
 
     /**
@@ -91,9 +91,9 @@ class ComponentHelper
         //   ➔ [ ['btn-default', 'btn-primary', 'btn-success'],
         //        ['btn-sm', 'btn-lg'] ]
         //
-        $defaultClasses = array_flip(self::ParseClassList($defaultClasses));
-        $userClasses = array_flip(self::ParseClassList($userClasses));
-        $mutuallyExclusiveClassGroups = array_map([self::class, 'ParseClassList'],
+        $defaultClasses = \array_flip(self::ParseClassList($defaultClasses));
+        $userClasses = \array_flip(self::ParseClassList($userClasses));
+        $mutuallyExclusiveClassGroups = \array_map([self::class, 'ParseClassList'],
             $mutuallyExclusiveClassGroups);
 
         // 2. Merge the user-defined classes and default classes. User classes
@@ -127,7 +127,7 @@ class ComponentHelper
             //   $group = array_flip(['btn-sm', 'btn-lg']);
             //   ➔ ['btn-sm' => 0, 'btn-lg' => 1]
             //
-            $group = array_flip($group);
+            $group = \array_flip($group);
 
             // 3.2. Find classes that are both in the mutually exclusive class
             // group and in the merged classes.
@@ -146,7 +146,7 @@ class ComponentHelper
             //   )
             //   ➔ ['btn-lg' => 1]
             //
-            $conflictingClasses = array_intersect_key($group, $mergedClasses);
+            $conflictingClasses = \array_intersect_key($group, $mergedClasses);
 
             // 3.3. If more than one conflicting class is present, resolve the
             // conflict.
@@ -178,7 +178,7 @@ class ComponentHelper
                 //   )
                 //   ➔ ['btn-primary' => 1]
                 //
-                $userClassesInGroup = array_intersect_key($userClasses, $group);
+                $userClassesInGroup = \array_intersect_key($userClasses, $group);
 
                 // 3.3.3. Select the first user class from the intersecting
                 // classes if it exists.
@@ -187,7 +187,7 @@ class ComponentHelper
                 //   $selectedUserClass = key(['btn-primary' => 1]) ?? null
                 //   ➔ 'btn-primary'
                 //
-                $selectedUserClass = key($userClassesInGroup) ?? null;
+                $selectedUserClass = \key($userClassesInGroup) ?? null;
 
                 // 3.3.4. If a user class was selected, add it back to the
                 // merged classes.
@@ -212,8 +212,8 @@ class ComponentHelper
         //   implode(' ', ['btn-lg', 'btn', 'btn-primary'])
         //   ➔ 'btn-lg btn btn-primary'
         //
-        $mergedClasses = array_keys($mergedClasses);
-        return implode(' ', $mergedClasses);
+        $mergedClasses = \array_keys($mergedClasses);
+        return \implode(' ', $mergedClasses);
     }
 
     /**
@@ -228,10 +228,10 @@ class ComponentHelper
      */
     public static function ParseClassList(string $classes): array
     {
-        $classes = trim($classes);
+        $classes = \trim($classes);
         if ($classes === '') {
             return [];
         }
-        return explode(' ', preg_replace('/\s+/', ' ', $classes));
+        return \explode(' ', \preg_replace('/\s+/', ' ', $classes));
     }
 }

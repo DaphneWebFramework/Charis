@@ -86,7 +86,11 @@ class Component implements \Stringable
         bool $isSelfClosing = false)
     {
         $this->tagName = $tagName;
-        $this->attributes = $attributes;
+        $this->attributes = ComponentHelper::MergeAttributes(
+            $this->getDefaultAttributes(),
+            $attributes,
+            $this->getMutuallyExclusiveClassGroups()
+        );
         $this->content = $content;
         $this->isSelfClosing = $isSelfClosing;
     }
@@ -146,6 +150,43 @@ class Component implements \Stringable
     }
 
     #endregion public
+
+    #region protected ----------------------------------------------------------
+
+    /**
+     * Provides default attributes.
+     *
+     * Subclasses can override this method to define their own default attributes.
+     * These attributes are merged with user-provided attributes at runtime.
+     *
+     * @return array<string, bool|int|float|string>
+     *   An associative array of default attributes where keys are attribute
+     *   names and values are scalar types (`bool`, `int`, `float`, or `string`).
+     *   By default, returns an empty array.
+     */
+    protected function getDefaultAttributes(): array
+    {
+        return [];
+    }
+
+    /**
+     * Provides mutually exclusive class groups.
+     *
+     * Subclasses can override this method to define groups of class names that
+     * should not coexist. When multiple classes from the same group are provided,
+     * the conflict is resolved to retain only one.
+     *
+     * @return string[]
+     *   An array of space-separated strings representing mutually exclusive
+     *   class groups (e.g., `['btn-primary btn-secondary btn-success', 'btn-sm
+     *   btn-lg']`).
+     */
+    protected function getMutuallyExclusiveClassGroups(): array
+    {
+        return [];
+    }
+
+    #endregion protected
 
     #region private ------------------------------------------------------------
 

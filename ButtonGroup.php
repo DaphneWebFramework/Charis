@@ -19,35 +19,6 @@ namespace Charis;
 class ButtonGroup extends Component
 {
     /**
-     * Default attributes.
-     *
-     * Includes the `class` attribute set to "btn-group" and the `role`
-     * attribute set to "group". The `aria-label` attribute is provided
-     * but left blank for the user to fill in as needed for accessibility
-     * purposes.
-     *
-     * @var array<string, bool|int|float|string>
-     */
-    private const DEFAULT_ATTRIBUTES = [
-        'class' => 'btn-group',
-        'role' => 'group',
-        'aria-label' => ''
-    ];
-
-    /**
-     * Mutually exclusive CSS class groups.
-     *
-     * Ensures that "btn-group" and "btn-group-vertical" classes cannot be
-     * applied simultaneously to the same button group element.
-     *
-     * @var string[]
-     */
-    private const MUTUALLY_EXCLUSIVE_CLASS_GROUPS = [
-        'btn-group btn-group-vertical',
-        'btn-group-lg btn-group-sm'
-    ];
-
-    /**
      * Constructs a new instance.
      *
      * @param array<string, bool|int|float|string>|null $attributes
@@ -64,14 +35,29 @@ class ButtonGroup extends Component
         ?array $attributes = null,
         string|Component|array|null $content = null)
     {
-        parent::__construct(
-            'div',
-            ComponentHelper::MergeAttributes(
-                self::DEFAULT_ATTRIBUTES,
-                $attributes,
-                self::MUTUALLY_EXCLUSIVE_CLASS_GROUPS
-            ),
-            $content
-        );
+        parent::__construct('div', $attributes, $content);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDefaultAttributes(): array
+    {
+        return [
+            'class' => 'btn-group',
+            'role' => 'group',
+            'aria-label' => ''
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getMutuallyExclusiveClassGroups(): array
+    {
+        return [
+            'btn-group btn-group-vertical',
+            'btn-group-lg btn-group-sm'
+        ];
     }
 }

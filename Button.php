@@ -19,32 +19,6 @@ namespace Charis;
 class Button extends Component
 {
     /**
-     * Default attributes.
-     *
-     * Includes the `type` attribute set to `button` and the default CSS class
-     * `btn btn-primary`, aligning with Bootstrap button styling.
-     *
-     * @var array<string, bool|int|float|string>
-     */
-    private const DEFAULT_ATTRIBUTES = [
-        'type' => 'button',
-        'class' => 'btn btn-primary'
-    ];
-
-    /**
-     * Mutually exclusive CSS class groups.
-     *
-     * Ensures conflicting styles such as `btn-primary` and `btn-secondary`, or
-     * `btn-lg` and `btn-sm`, are not combined on the same button element.
-     *
-     * @var string[]
-     */
-    private const MUTUALLY_EXCLUSIVE_CLASS_GROUPS = [
-        'btn-primary btn-secondary btn-success btn-info btn-warning btn-danger btn-light btn-dark btn-outline-primary btn-outline-secondary btn-outline-success btn-outline-info btn-outline-warning btn-outline-danger btn-outline-light btn-outline-dark btn-link',
-        'btn-lg btn-sm'
-    ];
-
-    /**
      * Constructs a new instance.
      *
      * @param array<string, bool|int|float|string>|null $attributes
@@ -61,14 +35,28 @@ class Button extends Component
         ?array $attributes = null,
         string|Component|array|null $content = null)
     {
-        parent::__construct(
-            'button',
-            ComponentHelper::MergeAttributes(
-                self::DEFAULT_ATTRIBUTES,
-                $attributes,
-                self::MUTUALLY_EXCLUSIVE_CLASS_GROUPS
-            ),
-            $content
-        );
+        parent::__construct('button', $attributes, $content);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDefaultAttributes(): array
+    {
+        return [
+            'type' => 'button',
+            'class' => 'btn btn-primary'
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getMutuallyExclusiveClassGroups(): array
+    {
+        return [
+            'btn-primary btn-secondary btn-success btn-info btn-warning btn-danger btn-light btn-dark btn-outline-primary btn-outline-secondary btn-outline-success btn-outline-info btn-outline-warning btn-outline-danger btn-outline-light btn-outline-dark btn-link',
+            'btn-lg btn-sm'
+        ];
     }
 }

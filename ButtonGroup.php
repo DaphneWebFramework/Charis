@@ -44,7 +44,7 @@ class ButtonGroup extends Component
      */
     private const MUTUALLY_EXCLUSIVE_CLASS_GROUPS = [
         'btn-group btn-group-vertical',
-        'btn-group-lg', 'btn-group-sm'
+        'btn-group-lg btn-group-sm'
     ];
 
     /**

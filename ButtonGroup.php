@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * Button.php
+ * ButtonGroup.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -13,35 +13,38 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap [Button](https://getbootstrap.com/docs/5.3/components/buttons/)
+ * Represents a Bootstrap [Button Group](https://getbootstrap.com/docs/5.3/components/button-group/)
  * component.
  */
-class Button extends Component
+class ButtonGroup extends Component
 {
     /**
      * Default attributes.
      *
-     * Includes the `type` attribute set to `button` and the default CSS class
-     * `btn btn-primary`, aligning with Bootstrap button styling.
+     * Includes the `class` attribute set to "btn-group" and the `role`
+     * attribute set to "group". The `aria-label` attribute is provided
+     * but left blank for the user to fill in as needed for accessibility
+     * purposes.
      *
      * @var array<string, bool|int|float|string>
      */
     private const DEFAULT_ATTRIBUTES = [
-        'type' => 'button',
-        'class' => 'btn btn-primary'
+        'class' => 'btn-group',
+        'role' => 'group',
+        'aria-label' => ''
     ];
 
     /**
      * Mutually exclusive CSS class groups.
      *
-     * Ensures conflicting styles such as `btn-primary` and `btn-secondary`, or
-     * `btn-lg` and `btn-sm`, are not combined on the same button element.
+     * Ensures that "btn-group" and "btn-group-vertical" classes cannot be
+     * applied simultaneously to the same button group element.
      *
      * @var string[]
      */
     private const MUTUALLY_EXCLUSIVE_CLASS_GROUPS = [
-        'btn-primary btn-secondary btn-success btn-info btn-warning btn-danger btn-light btn-dark btn-outline-primary btn-outline-secondary btn-outline-success btn-outline-info btn-outline-warning btn-outline-danger btn-outline-light btn-outline-dark btn-link',
-        'btn-lg btn-sm'
+        'btn-group btn-group-vertical',
+        'btn-group-lg', 'btn-group-sm'
     ];
 
     /**
@@ -62,7 +65,7 @@ class Button extends Component
         string|Component|array|null $content = null)
     {
         parent::__construct(
-            'button',
+            'div',
             ComponentHelper::MergeAttributes(
                 self::DEFAULT_ATTRIBUTES,
                 $attributes,

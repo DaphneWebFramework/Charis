@@ -18,29 +18,11 @@ namespace Charis;
  */
 class ButtonGroup extends Component
 {
-    /**
-     * Constructs a new instance.
-     *
-     * @param array<string, bool|int|float|string>|null $attributes
-     *   (Optional) An associative array of HTML attributes, where keys are
-     *   attribute names and values can be scalar types (`bool`, `int`, `float`,
-     *   or `string`). Pass `null` or an empty array to use default attributes.
-     *   Defaults to `null`.
-     * @param string|Component|array<string|Component>|null $content
-     *   (Optional) The content of the component, which can be a string, a
-     *   single `Component` instance, an array of strings and `Component`
-     *   instances, or `null` for no content. Defaults to `null`.
-     */
-    public function __construct(
-        ?array $attributes = null,
-        string|Component|array|null $content = null)
+    protected function getTagName(): string
     {
-        parent::__construct('div', $attributes, $content);
+        return 'div';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getDefaultAttributes(): array
     {
         return [
@@ -50,9 +32,6 @@ class ButtonGroup extends Component
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getMutuallyExclusiveClassGroups(): array
     {
         return [

@@ -13,8 +13,9 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap [Button Group](https://getbootstrap.com/docs/5.3/components/button-group/)
- * component.
+ * Represents a Bootstrap Button Group component.
+ *
+ * @link https://getbootstrap.com/docs/5.3/components/button-group/
  */
 class ButtonGroup extends Component
 {

@@ -13,8 +13,9 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap [Button](https://getbootstrap.com/docs/5.3/components/buttons/)
- * component.
+ * Represents a Bootstrap Button component.
+ *
+ * @link https://getbootstrap.com/docs/5.3/components/buttons/
  */
 class Button extends Component
 {

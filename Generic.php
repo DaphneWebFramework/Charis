@@ -60,17 +60,11 @@ class Generic extends Component
         parent::__construct($attributes, $content);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getTagName(): string
     {
         return $this->tagName;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function isSelfClosing(): bool
     {
         return $this->isSelfClosing;

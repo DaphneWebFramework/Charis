@@ -13,8 +13,9 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap [Button Toolbar](https://getbootstrap.com/docs/5.3/components/button-group/#button-toolbar)
- * component.
+ * Represents a Bootstrap Button Toolbar component.
+ *
+ * @link https://getbootstrap.com/docs/5.3/components/button-group/#button-toolbar
  */
 class ButtonToolbar extends Component
 {

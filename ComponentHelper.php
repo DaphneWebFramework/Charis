@@ -18,6 +18,15 @@ namespace Charis;
 class ComponentHelper
 {
     /**
+     * Regex pattern for validating pseudo attribute names.
+     *
+     * Pseudo attributes must start with `:` and can only contain alphanumeric
+     * characters and hyphens (`-`). The first character after the `:` must be
+     * an alphabetic character.
+     */
+    private const PSEUDO_ATTRIBUTE_NAME_PATTERN = '/^:[a-zA-Z][a-zA-Z0-9\-]*$/';
+
+    /**
      * Resolves attributes by merging defaults, resolving classes, and handling
      * mutually exclusive class groups.
      *
@@ -134,5 +143,39 @@ class ComponentHelper
             return [];
         }
         return \explode(' ', \preg_replace('/\s+/', ' ', $classes));
+    }
+
+    /**
+     * Returns and removes the specified pseudo attribute from the given
+     * attributes array.
+     *
+     * @param array<string, bool|int|float|string>|null $attributes
+     *   An associative array of attributes. The array will be modified in place
+     *   by removing the specified pseudo attribute if found.
+     * @param string $key
+     *   The key of the pseudo attribute to consume. Keys must match the defined
+     *   pattern and are case-sensitive.
+     * @param mixed $default
+     *   (Optional) The value to return if the key is not present or invalid.
+     *   Defaults to `null`.
+     * @return mixed
+     *   The value of the consumed pseudo attribute, or the default value if not
+     *   found.
+     */
+    public static function ConsumePseudoAttribute(
+        ?array &$attributes,
+        string $key,
+        mixed $default = null
+        ): mixed
+    {
+        if ($attributes === null
+         || !\preg_match(self::PSEUDO_ATTRIBUTE_NAME_PATTERN, $key)
+         || !\array_key_exists($key, $attributes))
+        {
+            return $default;
+        }
+        $value = $attributes[$key];
+        unset($attributes[$key]);
+        return $value;
     }
 }

@@ -19,6 +19,8 @@ namespace Charis;
  * This component supports the following pseudo attributes in its constructor:
  *
  * - `:id`: A unique identifier for the input element. If omitted and a
+ * - `:name`: The name attribute for the input element, used for grouping
+ *   related inputs and identifying the input's value during form submission.
  *   `:label-text` is provided, an ID is generated automatically.
  * - `:label-text`: Text for the associated `<label>` element. If omitted, no
  *   label is rendered.
@@ -46,6 +48,8 @@ abstract class FormCheckable extends Component
     {
         $id = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':id');
+        $name = ComponentHelper::ConsumePseudoAttribute(
+            $attributes, ':name');
         $labelText = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':label-text');
         $helpText = ComponentHelper::ConsumePseudoAttribute(
@@ -63,6 +67,7 @@ abstract class FormCheckable extends Component
         $content = [
             $this->createFormInputComponent([
                 ...($id !== null ? ['id' => $id] : []),
+                ...($name !== null ? ['name' => $name] : []),
                 ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
                 'checked' => $checked,
                 'disabled' => $disabled,

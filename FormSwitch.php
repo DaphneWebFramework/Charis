@@ -17,13 +17,13 @@ namespace Charis;
  *
  * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
  */
-class FormSwitch extends FormCheckable
+class FormSwitch extends FormCheckableComposite
 {
-    #region FormCheckable overrides --------------------------------------------
+    #region FormComposite overrides --------------------------------------------
 
     protected function getWrapperClassAttribute(): string
     {
-        return 'form-check form-switch';
+        return parent::getWrapperClassAttribute() . ' form-switch';
     }
 
     protected function createFormInputComponent(array $attributes): FormInput
@@ -31,5 +31,5 @@ class FormSwitch extends FormCheckable
         return new FormSwitchInput($attributes);
     }
 
-    #endregion FormCheckable overrides
+    #endregion FormComposite overrides
 }

@@ -17,19 +17,14 @@ namespace Charis;
  *
  * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#checks
  */
-class FormCheck extends FormCheckable
+class FormCheck extends FormCheckableComposite
 {
-    #region FormCheckable overrides --------------------------------------------
-
-    protected function getWrapperClassAttribute(): string
-    {
-        return 'form-check';
-    }
+    #region FormComposite overrides --------------------------------------------
 
     protected function createFormInputComponent(array $attributes): FormInput
     {
         return new FormCheckInput($attributes);
     }
 
-    #endregion FormCheckable overrides
+    #endregion FormComposite overrides
 }

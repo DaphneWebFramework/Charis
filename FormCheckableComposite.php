@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormCheckable.php
+ * FormCheckableComposite.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -16,12 +16,13 @@ namespace Charis;
  * Abstract base class for checkable form components such as `FormCheck`,
  * `FormRadio`, and `FormSwitch`.
  *
- * This component supports the following pseudo attributes in its constructor:
+ * Aside from HTML attributes that apply to the wrapper element, this component
+ * supports the following pseudo attributes in its constructor:
  *
  * - `:id`: A unique identifier for the input element. If omitted and a
+ *   `:label-text` is provided, an ID is generated automatically.
  * - `:name`: The name attribute for the input element, used for grouping
  *   related inputs and identifying the input's value during form submission.
- *   `:label-text` is provided, an ID is generated automatically.
  * - `:label-text`: Text for the associated `<label>` element. If omitted, no
  *   label is rendered.
  * - `:help-text`: Additional descriptive text. If provided, a `<div>` element
@@ -35,17 +36,18 @@ namespace Charis;
  *
  * @codeCoverageIgnore
  */
-abstract class FormCheckable extends Component
+abstract class FormCheckableComposite extends FormComposite
 {
     /**
      * Constructs a new instance.
      *
      * @param array<string, bool|int|float|string>|null $attributes
-     *   (Optional) An associative array of HTML attributes and pseudo
-     *   attributes.
+     *   (Optional) An associative array where HTML attributes apply to the
+     *   wrapper element, and pseudo attributes configure inner child elements.
      */
     public function __construct(?array $attributes = null)
     {
+        // 1. Consume pseudo attributes.
         $id = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':id');
         $name = ComponentHelper::ConsumePseudoAttribute(
@@ -59,11 +61,13 @@ abstract class FormCheckable extends Component
         $disabled = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':disabled', false);
 
+        // 2. Generate identifiers.
         if ($id === null && $labelText !== null) {
             $id = 'form-checkable-' . \uniqid();
         }
         $helpId = $helpText !== null ? 'help-text-' . \uniqid() : null;
 
+        // 3. Create child components.
         $content = [
             $this->createFormInputComponent([
                 ...($id !== null ? ['id' => $id] : []),
@@ -80,38 +84,16 @@ abstract class FormCheckable extends Component
             $content[] = new FormText(['id' => $helpId], $helpText);
         }
 
+        // 4. Pass attributes and content to parent constructor.
         parent::__construct($attributes, $content);
     }
 
-    /**
-     * Provides the CSS class for the wrapper element.
-     *
-     * @return string
-     *   The CSS class string for the wrapper element.
-     */
-    abstract protected function getWrapperClassAttribute(): string;
+    #region FormComposite overrides --------------------------------------------
 
-    /**
-     * Creates the form input component.
-     *
-     * @param array<string, bool|int|float|string> $attributes
-     *   Attributes for the input component.
-     * @return FormInput
-     *   The form input component instance.
-     */
-    abstract protected function createFormInputComponent(array $attributes): FormInput;
-
-    #region Component overrides ------------------------------------------------
-
-    protected function getTagName(): string
+    protected function getWrapperClassAttribute(): string
     {
-        return 'div';
+        return 'form-check';
     }
 
-    protected function getDefaultAttributes(): array
-    {
-        return ['class' => $this->getWrapperClassAttribute()];
-    }
-
-    #endregion Component overrides
+    #endregion FormComposite overrides
 }

@@ -21,9 +21,10 @@ class FormSwitch extends FormCheckableComposite
 {
     #region FormComposite overrides --------------------------------------------
 
-    protected function getWrapperClassAttribute(): string
+    protected function getCompositeClassAttribute(): string
     {
-        return parent::getWrapperClassAttribute() . ' form-switch';
+        return ComponentHelper::CombineClassAttributes(
+            parent::getCompositeClassAttribute(), 'form-switch');
     }
 
     protected function createFormInputComponent(array $attributes): FormInput

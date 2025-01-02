@@ -33,7 +33,7 @@ class ButtonGroup extends Component
         ];
     }
 
-    protected function getMutuallyExclusiveClassGroups(): array
+    protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [
             'btn-group btn-group-vertical',

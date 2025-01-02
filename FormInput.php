@@ -13,9 +13,11 @@
 namespace Charis;
 
 /**
- * Represents an `<input>` element styled as a Bootstrap form control.
+ * Abstract base class for `<input>` elements styled as Bootstrap form controls.
+ *
+ * @codeCoverageIgnore
  */
-class FormInput extends FormControl
+abstract class FormInput extends FormControl
 {
     protected function getTagName(): string
     {

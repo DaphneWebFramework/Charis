@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Abstract base class for checkable form components such as `FormCheck`,
+ * Abstract base class for checkable form components, such as `FormCheck`,
  * `FormRadio`, and `FormSwitch`.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
@@ -74,7 +74,7 @@ abstract class FormCheckableComposite extends FormComposite
                 ...($name !== null ? ['name' => $name] : []),
                 ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
                 'checked' => $checked,
-                'disabled' => $disabled,
+                'disabled' => $disabled
             ])
         ];
         if ($labelText !== null) {
@@ -90,7 +90,7 @@ abstract class FormCheckableComposite extends FormComposite
 
     #region FormComposite overrides --------------------------------------------
 
-    protected function getWrapperClassAttribute(): string
+    protected function getCompositeClassAttribute(): string
     {
         return 'form-check';
     }

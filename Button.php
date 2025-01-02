@@ -32,7 +32,7 @@ class Button extends Component
         ];
     }
 
-    protected function getMutuallyExclusiveClassGroups(): array
+    protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [
             'btn-primary btn-secondary btn-success btn-info btn-warning btn-danger btn-light btn-dark btn-outline-primary btn-outline-secondary btn-outline-success btn-outline-info btn-outline-warning btn-outline-danger btn-outline-light btn-outline-dark btn-link',

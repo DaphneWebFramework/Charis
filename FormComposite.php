@@ -26,7 +26,7 @@ abstract class FormComposite extends Component
      * @return string
      *   The CSS class string for the wrapper element.
      */
-    abstract protected function getWrapperClassAttribute(): string;
+    abstract protected function getCompositeClassAttribute(): string;
 
     /**
      * Creates the form input component.
@@ -47,7 +47,7 @@ abstract class FormComposite extends Component
 
     protected function getDefaultAttributes(): array
     {
-        return ['class' => $this->getWrapperClassAttribute()];
+        return ['class' => $this->getCompositeClassAttribute()];
     }
 
     #endregion Component overrides

@@ -20,8 +20,8 @@ namespace Charis;
  * specific HTML tag for the component. Optionally, subclasses can override:
  *
  * - `getDefaultAttributes`: Defines default attributes for the component.
- * - `getMutuallyExclusiveClassGroups`: Defines class groups where only one
- *   class from each group can be applied at a time.
+ * - `getMutuallyExclusiveClassAttributeGroups`: Defines class groups where only
+ *   one class from each group can be applied at a time.
  * - `isSelfClosing`: Indicates whether the component is self-closing (e.g.,
  *   `<img/>`). Defaults to `false`.
  *
@@ -79,7 +79,7 @@ abstract class Component implements \Stringable
         $this->attributes = ComponentHelper::MergeAttributes(
             $this->getDefaultAttributes(),
             $attributes,
-            $this->getMutuallyExclusiveClassGroups()
+            $this->getMutuallyExclusiveClassAttributeGroups()
         );
         $this->content = $content;
     }
@@ -181,7 +181,7 @@ abstract class Component implements \Stringable
      *   class groups (e.g., `['btn-primary btn-secondary btn-success', 'btn-sm
      *   btn-lg']`).
      */
-    protected function getMutuallyExclusiveClassGroups(): array
+    protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [];
     }

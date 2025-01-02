@@ -30,7 +30,7 @@ class FormLabel extends Component
         ];
     }
 
-    protected function getMutuallyExclusiveClassGroups(): array
+    protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [
             'form-label form-check-label'

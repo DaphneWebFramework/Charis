@@ -28,7 +28,7 @@ abstract class FormControl extends Component
         ];
     }
 
-    protected function getMutuallyExclusiveClassGroups(): array
+    protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [
             'form-control form-control-plaintext form-check-input',

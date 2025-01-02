@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormCheckableComposite.php
+ * FormStandardComposite.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -13,8 +13,8 @@
 namespace Charis;
 
 /**
- * Abstract base class for checkable form components, such as `FormCheck`,
- * `FormRadio`, and `FormSwitch`.
+ * Abstract base class for standard form components with a label, input, and
+ * optional help text.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:
@@ -27,16 +27,16 @@ namespace Charis;
  *   label is rendered.
  * - `:help-text`: Additional descriptive text. If provided, a `<div>` element
  *   with the "form-text" class is rendered.
- * - `:checked`: Boolean indicating whether the input should be checked.
- *   Defaults to `false`.
+ * - `:placeholder`: Specifies a hint or short description that appears inside
+ *   the input element when it is empty.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
  *   Defaults to `false`.
  *
- * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/
+ * @link https://getbootstrap.com/docs/5.3/forms/form-control/
  *
  * @codeCoverageIgnore
  */
-abstract class FormCheckableComposite extends FormComposite
+abstract class FormStandardComposite extends FormComposite
 {
     /**
      * Constructs a new instance.
@@ -44,6 +44,8 @@ abstract class FormCheckableComposite extends FormComposite
      * @param array<string, bool|int|float|string>|null $attributes
      *   (Optional) An associative array where HTML attributes apply to the
      *   wrapper element, and pseudo attributes configure inner child elements.
+     *
+     * @todo Add `:placeholder` attribute.
      */
     public function __construct(?array $attributes = null)
     {
@@ -56,8 +58,8 @@ abstract class FormCheckableComposite extends FormComposite
             $attributes, ':label-text');
         $helpText = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':help-text');
-        $checked = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':checked', false);
+        $placeholder = ComponentHelper::ConsumePseudoAttribute(
+            $attributes, ':placeholder');
         $disabled = ComponentHelper::ConsumePseudoAttribute(
             $attributes, ':disabled', false);
 
@@ -68,18 +70,17 @@ abstract class FormCheckableComposite extends FormComposite
         $helpId = $helpText !== null ? 'form-help-text-' . \uniqid() : null;
 
         // 3. Create child components.
-        $content = [
-            $this->createFormInputComponent([
-                ...($id !== null ? ['id' => $id] : []),
-                ...($name !== null ? ['name' => $name] : []),
-                ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
-                'checked' => $checked,
-                'disabled' => $disabled
-            ])
-        ];
+        $content = [];
         if ($labelText !== null) {
-            $content[] = new FormCheckLabel(['for' => $id], $labelText);
+            $content[] = new FormLabel(['for' => $id], $labelText);
         }
+        $content[] = $this->createFormInputComponent([
+            ...($id !== null ? ['id' => $id] : []),
+            ...($name !== null ? ['name' => $name] : []),
+            ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
+            ...($placeholder !== null ? ['placeholder' => $placeholder] : []),
+            'disabled' => $disabled
+        ]);
         if ($helpText !== null) {
             $content[] = new FormHelpText(['id' => $helpId], $helpText);
         }
@@ -92,7 +93,7 @@ abstract class FormCheckableComposite extends FormComposite
 
     protected function getCompositeClassAttribute(): string
     {
-        return 'form-check';
+        return 'mb-3';
     }
 
     #endregion FormComposite overrides

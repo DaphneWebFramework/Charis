@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormText.php
+ * FormTextInput.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -12,14 +12,12 @@
 
 namespace Charis;
 
-class FormText extends FormStandardComposite
+class FormTextInput extends FormInput
 {
-    #region FormComposite overrides --------------------------------------------
-
-    protected function createFormInputComponent(array $attributes): FormInput
+    protected function getDefaultAttributes(): array
     {
-        return new FormTextInput($attributes);
+        return \array_merge(parent::getDefaultAttributes(), [
+            'type' => 'text'
+        ]);
     }
-
-    #endregion FormComposite overrides
 }

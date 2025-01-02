@@ -48,8 +48,6 @@ abstract class FormStandardComposite extends FormComposite
      * @param array<string, bool|int|float|string>|null $attributes
      *   (Optional) An associative array where HTML attributes apply to the
      *   wrapper element, and pseudo attributes configure inner child elements.
-     *
-     * @todo Add `:placeholder` attribute.
      */
     public function __construct(?array $attributes = null)
     {

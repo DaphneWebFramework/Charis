@@ -15,19 +15,13 @@ namespace Charis;
 /**
  * Represents a `<label>` element styled as a Bootstrap form control label.
  */
-class FormLabel extends Component
+class FormLabel extends Label
 {
-    protected function getTagName(): string
-    {
-        return 'label';
-    }
-
     protected function getDefaultAttributes(): array
     {
-        return [
-            'class' => 'form-label',
-            'for' => ''
-        ];
+        return \array_merge(parent::getDefaultAttributes(), [
+            'class' => 'form-label'
+        ]);
     }
 
     protected function getMutuallyExclusiveClassAttributeGroups(): array

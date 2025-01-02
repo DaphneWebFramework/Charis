@@ -10,7 +10,10 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormComposites;
+
+use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormRadioInput;
 
 /**
  * Represents a Bootstrap Radio component.

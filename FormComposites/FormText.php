@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormSwitch.php
+ * FormText.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -10,26 +10,18 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormComposites;
 
-/**
- * Represents a Bootstrap Switch component.
- *
- * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
- */
-class FormSwitch extends FormCheckableComposite
+use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormTextInput;
+
+class FormText extends FormStandardComposite
 {
     #region FormComposite overrides --------------------------------------------
 
-    protected function getCompositeClassAttribute(): string
-    {
-        return ComponentHelper::CombineClassAttributes(
-            parent::getCompositeClassAttribute(), 'form-switch');
-    }
-
     protected function createFormInputComponent(array $attributes): FormInput
     {
-        return new FormSwitchInput($attributes);
+        return new FormTextInput($attributes);
     }
 
     #endregion FormComposite overrides

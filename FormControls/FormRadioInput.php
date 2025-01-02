@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormCheckInput.php
+ * FormRadioInput.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -10,18 +10,19 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormControls;
 
 /**
- * Represents an `<input>` element styled as a Bootstrap check input.
+ * Represents an `<input>` element styled as a Bootstrap radio input.
  */
-class FormCheckInput extends FormInput
+class FormRadioInput extends FormInput
 {
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
             'class' => 'form-check-input',
-            'type' => 'checkbox'
+            'type' => 'radio',
+            'name' => ''
         ]);
     }
 }

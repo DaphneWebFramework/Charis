@@ -10,7 +10,9 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormControls;
+
+use \Charis\Component;
 
 /**
  * Abstract base class for Bootstrap Form Control components.

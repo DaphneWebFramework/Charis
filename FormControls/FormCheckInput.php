@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormSwitchInput.php
+ * FormCheckInput.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -10,19 +10,18 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormControls;
 
 /**
- * Represents an `<input>` element styled as a Bootstrap switch input.
+ * Represents an `<input>` element styled as a Bootstrap check input.
  */
-class FormSwitchInput extends FormInput
+class FormCheckInput extends FormInput
 {
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
             'class' => 'form-check-input',
-            'type' => 'checkbox',
-            'role' => 'switch'
+            'type' => 'checkbox'
         ]);
     }
 }

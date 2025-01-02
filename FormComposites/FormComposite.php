@@ -10,7 +10,10 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormComposites;
+
+use \Charis\Component;
+use \Charis\FormControls\FormInput;
 
 /**
  * Abstract base class for composite form components, such as `FormStandardComposite`,

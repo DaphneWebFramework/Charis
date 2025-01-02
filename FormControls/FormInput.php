@@ -10,7 +10,7 @@
  * see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-namespace Charis;
+namespace Charis\FormControls;
 
 /**
  * Abstract base class for `<input>` elements styled as Bootstrap form controls.

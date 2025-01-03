@@ -17,6 +17,8 @@ namespace Charis;
  */
 class FormHelpText extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'div';
@@ -29,4 +31,6 @@ class FormHelpText extends Component
             'class' => 'form-text'
         ];
     }
+
+    #endregion Component overrides
 }

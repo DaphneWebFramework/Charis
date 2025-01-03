@@ -60,6 +60,8 @@ class Generic extends Component
         parent::__construct($attributes, $content);
     }
 
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return $this->tagName;
@@ -69,4 +71,6 @@ class Generic extends Component
     {
         return $this->isSelfClosing;
     }
+
+    #endregion Component overrides
 }

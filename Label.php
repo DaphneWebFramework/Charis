@@ -14,6 +14,8 @@ namespace Charis;
 
 class Label extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'label';
@@ -25,4 +27,6 @@ class Label extends Component
             'for' => ''
         ];
     }
+
+    #endregion Component overrides
 }

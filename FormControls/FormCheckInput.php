@@ -17,6 +17,8 @@ namespace Charis\FormControls;
  */
 class FormCheckInput extends FormInput
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
@@ -24,4 +26,6 @@ class FormCheckInput extends FormInput
             'type' => 'checkbox'
         ]);
     }
+
+    #endregion Component overrides
 }

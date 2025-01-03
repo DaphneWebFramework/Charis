@@ -23,6 +23,8 @@ use \Charis\Component;
  */
 abstract class FormControl extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return [
@@ -37,4 +39,6 @@ abstract class FormControl extends Component
             'form-control-lg form-control-sm'
         ];
     }
+
+    #endregion Component overrides
 }

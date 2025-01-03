@@ -14,10 +14,14 @@ namespace Charis\FormControls;
 
 class FormTextInput extends FormInput
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
             'type' => 'text'
         ]);
     }
+
+    #endregion Component overrides
 }

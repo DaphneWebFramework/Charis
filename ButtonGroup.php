@@ -19,6 +19,8 @@ namespace Charis;
  */
 class ButtonGroup extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'div';
@@ -40,4 +42,6 @@ class ButtonGroup extends Component
             'btn-group-lg btn-group-sm'
         ];
     }
+
+    #endregion Component overrides
 }

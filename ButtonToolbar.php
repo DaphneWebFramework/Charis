@@ -19,6 +19,8 @@ namespace Charis;
  */
 class ButtonToolbar extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'div';
@@ -32,4 +34,6 @@ class ButtonToolbar extends Component
             'aria-label' => ''
         ];
     }
+
+    #endregion Component overrides
 }

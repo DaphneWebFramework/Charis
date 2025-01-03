@@ -19,6 +19,8 @@ namespace Charis\FormControls;
  */
 abstract class FormInput extends FormControl
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'input';
@@ -28,4 +30,6 @@ abstract class FormInput extends FormControl
     {
         return true;
     }
+
+    #endregion Component overrides
 }

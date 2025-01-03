@@ -17,6 +17,8 @@ namespace Charis\FormControls;
  */
 class FormSwitchInput extends FormInput
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
@@ -25,4 +27,6 @@ class FormSwitchInput extends FormInput
             'role' => 'switch'
         ]);
     }
+
+    #endregion Component overrides
 }

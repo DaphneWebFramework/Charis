@@ -18,10 +18,14 @@ namespace Charis;
  */
 class FormCheckLabel extends FormLabel
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
             'class' => 'form-check-label'
         ]);
     }
+
+    #endregion Component overrides
 }

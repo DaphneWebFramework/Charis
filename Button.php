@@ -19,6 +19,8 @@ namespace Charis;
  */
 class Button extends Component
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getTagName(): string
     {
         return 'button';
@@ -39,4 +41,6 @@ class Button extends Component
             'btn-lg btn-sm'
         ];
     }
+
+    #endregion Component overrides
 }

@@ -17,6 +17,8 @@ namespace Charis;
  */
 class FormLabel extends Label
 {
+    #region Component overrides ------------------------------------------------
+
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
@@ -30,4 +32,6 @@ class FormLabel extends Label
             'form-label form-check-label'
         ];
     }
+
+    #endregion Component overrides
 }

@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\ComponentHelper;
+use \Charis\Helper;
 use \Charis\FormLabel;
 use \Charis\FormHelpText;
 
@@ -52,12 +52,12 @@ abstract class FormStandardComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = ComponentHelper::ConsumePseudoAttribute($attributes, ':id');
-        $name = ComponentHelper::ConsumePseudoAttribute($attributes, ':name');
-        $label = ComponentHelper::ConsumePseudoAttribute($attributes, ':label');
-        $help = ComponentHelper::ConsumePseudoAttribute($attributes, ':help');
-        $placeholder = ComponentHelper::ConsumePseudoAttribute($attributes, ':placeholder');
-        $disabled = ComponentHelper::ConsumePseudoAttribute($attributes, ':disabled', false);
+        $id = Helper::ConsumePseudoAttribute($attributes, ':id');
+        $name = Helper::ConsumePseudoAttribute($attributes, ':name');
+        $label = Helper::ConsumePseudoAttribute($attributes, ':label');
+        $help = Helper::ConsumePseudoAttribute($attributes, ':help');
+        $placeholder = Helper::ConsumePseudoAttribute($attributes, ':placeholder');
+        $disabled = Helper::ConsumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {

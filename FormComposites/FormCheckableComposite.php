@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\ComponentHelper;
+use \Charis\Helper;
 use \Charis\FormCheckLabel;
 use \Charis\FormHelpText;
 
@@ -52,12 +52,12 @@ abstract class FormCheckableComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = ComponentHelper::ConsumePseudoAttribute($attributes, ':id');
-        $name = ComponentHelper::ConsumePseudoAttribute($attributes, ':name');
-        $label = ComponentHelper::ConsumePseudoAttribute($attributes, ':label');
-        $help = ComponentHelper::ConsumePseudoAttribute($attributes, ':help');
-        $checked = ComponentHelper::ConsumePseudoAttribute($attributes, ':checked', false);
-        $disabled = ComponentHelper::ConsumePseudoAttribute($attributes, ':disabled', false);
+        $id = Helper::ConsumePseudoAttribute($attributes, ':id');
+        $name = Helper::ConsumePseudoAttribute($attributes, ':name');
+        $label = Helper::ConsumePseudoAttribute($attributes, ':label');
+        $help = Helper::ConsumePseudoAttribute($attributes, ':help');
+        $checked = Helper::ConsumePseudoAttribute($attributes, ':checked', false);
+        $disabled = Helper::ConsumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {

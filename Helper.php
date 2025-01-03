@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * ComponentHelper.php
+ * Helper.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -15,7 +15,7 @@ namespace Charis;
 /**
  * Provides helper functions for component classes.
  */
-abstract class ComponentHelper
+abstract class Helper
 {
     /**
      * Regex pattern for validating pseudo attribute names.

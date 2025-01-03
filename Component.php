@@ -76,7 +76,7 @@ abstract class Component implements \Stringable
         ?array $attributes = null,
         string|Component|array|null $content = null)
     {
-        $this->attributes = ComponentHelper::MergeAttributes(
+        $this->attributes = Helper::MergeAttributes(
             $this->getDefaultAttributes(),
             $attributes,
             $this->getMutuallyExclusiveClassAttributeGroups()

@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\ComponentHelper;
+use \Charis\Helper;
 use \Charis\FormControls\FormInput;
 use \Charis\FormControls\FormSwitchInput;
 
@@ -27,7 +27,7 @@ class FormSwitch extends FormCheckableComposite
 
     protected function getCompositeClassAttribute(): string
     {
-        return ComponentHelper::CombineClassAttributes(
+        return Helper::CombineClassAttributes(
             parent::getCompositeClassAttribute(), 'form-switch');
     }
 

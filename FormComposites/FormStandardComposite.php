@@ -23,14 +23,14 @@ use \Charis\FormHelpText;
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:
  *
- * - `:id`: A unique identifier for the input element. If omitted and a
- *   `:label-text` is provided, an ID is generated automatically.
+ * - `:id`: A unique identifier for the input element. If omitted and a `:label`
+ *   is provided, an ID is generated automatically.
  * - `:name`: The name attribute for the input element, used for grouping
  *   related inputs and identifying the input's value during form submission.
- * - `:label-text`: Text for the associated `<label>` element. If omitted, no
- *   label is rendered.
- * - `:help-text`: Additional descriptive text. If provided, a `<div>` element
- *   with the "form-text" class is rendered.
+ * - `:label`: Text for the associated `<label>` element. If omitted, no label
+ *   is rendered.
+ * - `:help`: Additional descriptive text. If provided, a `<div>` element with
+ *   the "form-text" class is rendered.
  * - `:placeholder`: Specifies a hint or short description that appears inside
  *   the input element when it is empty.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
@@ -52,29 +52,23 @@ abstract class FormStandardComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':id');
-        $name = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':name');
-        $labelText = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':label-text');
-        $helpText = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':help-text');
-        $placeholder = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':placeholder');
-        $disabled = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':disabled', false);
+        $id = ComponentHelper::ConsumePseudoAttribute($attributes, ':id');
+        $name = ComponentHelper::ConsumePseudoAttribute($attributes, ':name');
+        $label = ComponentHelper::ConsumePseudoAttribute($attributes, ':label');
+        $help = ComponentHelper::ConsumePseudoAttribute($attributes, ':help');
+        $placeholder = ComponentHelper::ConsumePseudoAttribute($attributes, ':placeholder');
+        $disabled = ComponentHelper::ConsumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
-        if ($id === null && $labelText !== null) {
+        if ($id === null && $label !== null) {
             $id = 'form-input-' . \uniqid();
         }
-        $helpId = $helpText !== null ? 'form-help-text-' . \uniqid() : null;
+        $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
 
         // 3. Create child components.
         $content = [];
-        if ($labelText !== null) {
-            $content[] = new FormLabel(['for' => $id], $labelText);
+        if ($label !== null) {
+            $content[] = new FormLabel(['for' => $id], $label);
         }
         $content[] = $this->createFormInputComponent([
             ...($id !== null ? ['id' => $id] : []),
@@ -83,8 +77,8 @@ abstract class FormStandardComposite extends FormComposite
             ...($placeholder !== null ? ['placeholder' => $placeholder] : []),
             'disabled' => $disabled
         ]);
-        if ($helpText !== null) {
-            $content[] = new FormHelpText(['id' => $helpId], $helpText);
+        if ($help !== null) {
+            $content[] = new FormHelpText(['id' => $helpId], $help);
         }
 
         // 4. Pass attributes and content to parent constructor.

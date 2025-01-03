@@ -33,22 +33,17 @@ abstract class FormFloatingLabelComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':id');
-        $name = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':name');
-        $labelText = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':label-text');
-        $helpText = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':help-text');
-        $disabled = ComponentHelper::ConsumePseudoAttribute(
-            $attributes, ':disabled', false);
+        $id = ComponentHelper::ConsumePseudoAttribute($attributes, ':id');
+        $name = ComponentHelper::ConsumePseudoAttribute($attributes, ':name');
+        $label = ComponentHelper::ConsumePseudoAttribute($attributes, ':label');
+        $help = ComponentHelper::ConsumePseudoAttribute($attributes, ':help');
+        $disabled = ComponentHelper::ConsumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
-        if ($id === null && $labelText !== null) {
+        if ($id === null && $label !== null) {
             $id = 'form-input-' . \uniqid();
         }
-        $helpId = $helpText !== null ? 'form-help-text-' . \uniqid() : null;
+        $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
 
         // 3. Create child components.
         $content = [
@@ -60,11 +55,11 @@ abstract class FormFloatingLabelComposite extends FormComposite
                 'disabled' => $disabled
             ])
         ];
-        if ($labelText !== null) {
-            $content[] = new Label(['for' => $id], $labelText);
+        if ($label !== null) {
+            $content[] = new Label(['for' => $id], $label);
         }
-        if ($helpText !== null) {
-            $content[] = new FormHelpText(['id' => $helpId], $helpText);
+        if ($help !== null) {
+            $content[] = new FormHelpText(['id' => $helpId], $help);
         }
 
         // 4. Pass attributes and content to parent constructor.

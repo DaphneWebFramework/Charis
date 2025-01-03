@@ -215,8 +215,8 @@ abstract class Component implements \Stringable
      * @return string
      *   The rendered attributes (e.g., `id="example" class="foo bar"`).
      * @throws \InvalidArgumentException
-     *   If an attribute name is not a string, is empty, or an attribute value
-     *   is not scalar.
+     *   If an attribute name is not a string, does not match the required
+     *   pattern, or an attribute value is not scalar.
      */
     private function renderAttributes(): string
     {

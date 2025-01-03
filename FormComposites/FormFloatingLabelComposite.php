@@ -21,8 +21,6 @@ use \Charis\FormHelpText;
  * floating label and optional help text.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/floating-labels/
- *
- * @codeCoverageIgnore
  */
 abstract class FormFloatingLabelComposite extends FormComposite
 {

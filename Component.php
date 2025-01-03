@@ -23,8 +23,6 @@ namespace Charis;
  *   where only one class from each group can be applied simultaneously.
  * - `isSelfClosing`: Indicates whether the component is self-closing (e.g.,
  *   `<input/>`, `<img/>`).
- *
- * @codeCoverageIgnore
  */
 abstract class Component implements \Stringable
 {

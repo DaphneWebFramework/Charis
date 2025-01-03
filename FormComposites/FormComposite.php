@@ -18,8 +18,6 @@ use \Charis\FormControls\FormInput;
 /**
  * Abstract base class for form composites, combining multiple components into a
  * cohesive structure.
- *
- * @codeCoverageIgnore
  */
 abstract class FormComposite extends Component
 {

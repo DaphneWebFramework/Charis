@@ -37,8 +37,6 @@ use \Charis\FormHelpText;
  *   Defaults to `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/
- *
- * @codeCoverageIgnore
  */
 abstract class FormCheckableComposite extends FormComposite
 {

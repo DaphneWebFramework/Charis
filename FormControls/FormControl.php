@@ -19,8 +19,6 @@ use \Charis\Component;
  * behaviors.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/form-control/
- *
- * @codeCoverageIgnore
  */
 abstract class FormControl extends Component
 {

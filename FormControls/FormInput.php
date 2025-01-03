@@ -15,8 +15,6 @@ namespace Charis\FormControls;
 /**
  * Abstract base class for form input controls, serving as the foundation for
  * specialized input types.
- *
- * @codeCoverageIgnore
  */
 abstract class FormInput extends FormControl
 {

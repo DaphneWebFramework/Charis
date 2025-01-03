@@ -12,6 +12,9 @@
 
 namespace Charis;
 
+/**
+ * Represents a label.
+ */
 class Label extends Component
 {
     #region Component overrides ------------------------------------------------

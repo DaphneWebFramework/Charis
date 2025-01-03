@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap Button Group component.
+ * Represents a group of buttons.
  *
  * @link https://getbootstrap.com/docs/5.3/components/button-group/
  */

@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * A component for rendering arbitrary HTML elements.
+ * Represents a general-purpose HTML element.
  */
 class Generic extends Component
 {

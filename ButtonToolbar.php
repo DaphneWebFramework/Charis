@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap Button Toolbar component.
+ * Represents a toolbar for organizing button groups.
  *
  * @link https://getbootstrap.com/docs/5.3/components/button-group/#button-toolbar
  */

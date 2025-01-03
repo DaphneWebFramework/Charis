@@ -13,7 +13,8 @@
 namespace Charis;
 
 /**
- * Provides helper functions for component classes.
+ * Contains utility functions intended for internal use by the `Component` class
+ * and its subclasses.
  */
 abstract class Helper
 {

@@ -17,8 +17,8 @@ use \Charis\FormLabel;
 use \Charis\FormHelpText;
 
 /**
- * Abstract base class for standard form components with a label, input, and
- * optional help text.
+ * Abstract base class for form composites, combining an input control with a
+ * label and optional help text.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:

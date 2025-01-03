@@ -13,7 +13,9 @@
 namespace Charis\FormControls;
 
 /**
- * Represents an `<input>` element styled as a Bootstrap radio input.
+ * Represents a radio input.
+ *
+ * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#radios
  */
 class FormRadioInput extends FormInput
 {

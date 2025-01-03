@@ -12,6 +12,9 @@
 
 namespace Charis\FormControls;
 
+/**
+ * Represents a text input.
+ */
 class FormTextInput extends FormInput
 {
     #region Component overrides ------------------------------------------------

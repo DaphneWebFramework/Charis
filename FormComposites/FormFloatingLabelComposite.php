@@ -17,6 +17,9 @@ use \Charis\Label;
 use \Charis\FormHelpText;
 
 /**
+ * Abstract base class for form composites, combining an input control with a
+ * floating label and optional help text.
+ *
  * @link https://getbootstrap.com/docs/5.3/forms/floating-labels/
  *
  * @codeCoverageIgnore

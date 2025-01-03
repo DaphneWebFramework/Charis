@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a `<label>` element styled as a Bootstrap form control label.
+ * Represents a label for a form control.
  */
 class FormLabel extends Label
 {

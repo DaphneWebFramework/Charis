@@ -17,8 +17,8 @@ use \Charis\FormCheckLabel;
 use \Charis\FormHelpText;
 
 /**
- * Abstract base class for checkable form components, such as `FormCheck`,
- * `FormRadio`, and `FormSwitch`.
+ * Abstract base class for form composites, combining a checkable input control
+ * with a label and optional help text.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:

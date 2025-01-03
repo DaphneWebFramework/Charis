@@ -16,7 +16,7 @@ use \Charis\FormControls\FormInput;
 use \Charis\FormControls\FormRadioInput;
 
 /**
- * Represents a Bootstrap Radio component.
+ * Represents a radio input with a label and optional help text.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#radios
  */

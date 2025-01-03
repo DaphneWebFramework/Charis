@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a Bootstrap Button component.
+ * Represents a button.
  *
  * @link https://getbootstrap.com/docs/5.3/components/buttons/
  */

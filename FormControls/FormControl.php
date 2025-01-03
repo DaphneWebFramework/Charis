@@ -15,7 +15,8 @@ namespace Charis\FormControls;
 use \Charis\Component;
 
 /**
- * Abstract base class for Bootstrap Form Control components.
+ * Abstract base class for form controls, defining common attributes and
+ * behaviors.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/form-control/
  *

@@ -15,6 +15,9 @@ namespace Charis\FormComposites;
 use \Charis\FormControls\FormInput;
 use \Charis\FormControls\FormTextInput;
 
+/**
+ * Represents a text input with a label and optional help text.
+ */
 class FormText extends FormStandardComposite
 {
     #region FormComposite overrides --------------------------------------------

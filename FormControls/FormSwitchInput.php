@@ -13,7 +13,9 @@
 namespace Charis\FormControls;
 
 /**
- * Represents an `<input>` element styled as a Bootstrap switch input.
+ * Represents a switch input.
+ *
+ * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
  */
 class FormSwitchInput extends FormInput
 {

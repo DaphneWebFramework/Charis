@@ -13,7 +13,9 @@
 namespace Charis;
 
 /**
- * Represents contextual help text for a Bootstrap form control.
+ * Represents contextual help text for a form control.
+ *
+ * @link https://getbootstrap.com/docs/5.3/forms/form-control/#form-text
  */
 class FormHelpText extends Component
 {

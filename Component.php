@@ -15,15 +15,14 @@ namespace Charis;
 /**
  * Abstract base class for defining and rendering HTML components.
  *
- * This class provides a foundation for creating server-side rendered HTML
- * components. Subclasses must implement the `getTagName` method to define the
- * specific HTML tag for the component. Optionally, subclasses can override:
+ * Subclasses must implement the `getTagName` method to specify the HTML tag
+ * for the component. Subclasses can optionally override:
  *
- * - `getDefaultAttributes`: Defines default attributes for the component.
- * - `getMutuallyExclusiveClassAttributeGroups`: Defines class groups where only
- *   one class from each group can be applied at a time.
+ * - `getDefaultAttributes`: Returns the default attributes for the component.
+ * - `getMutuallyExclusiveClassAttributeGroups`: Specifies groups of CSS classes
+ *   where only one class from each group can be applied simultaneously.
  * - `isSelfClosing`: Indicates whether the component is self-closing (e.g.,
- *   `<img/>`). Defaults to `false`.
+ *   `<input/>`, `<img/>`).
  *
  * @codeCoverageIgnore
  */
@@ -110,10 +109,10 @@ abstract class Component implements \Stringable
      * @return string
      *   The HTML string representation of the component.
      * @throws \InvalidArgumentException
-     *   If the tag name is empty, contains invalid characters, an attribute
-     *   name is not a string, is empty, an attribute value is not scalar, or
-     *   the content array contains an item that is neither a string nor a
-     *   `Component` instance.
+     *   If the tag name does not match the required pattern, an attribute name
+     *   is not a string or does not match the required pattern, an attribute
+     *   value is not scalar, or the content array contains an item that is
+     *   neither a string nor a `Component` instance.
      * @throws \LogicException
      *   If the component is self-closing but has non-empty content.
      */
@@ -159,10 +158,11 @@ abstract class Component implements \Stringable
      * Subclasses can override this method to define their own default attributes.
      * These attributes are merged with user-provided attributes at runtime.
      *
+     * By default, returns an empty array.
+     *
      * @return array<string, bool|int|float|string>
      *   An associative array of default attributes where keys are attribute
      *   names and values are scalar types (`bool`, `int`, `float`, or `string`).
-     *   By default, returns an empty array.
      */
     protected function getDefaultAttributes(): array
     {
@@ -175,6 +175,8 @@ abstract class Component implements \Stringable
      * Subclasses can override this method to define groups of class names that
      * should not coexist. When multiple classes from the same group are provided,
      * the conflict is resolved to retain only one.
+     *
+     * By default, returns an empty array.
      *
      * @return string[]
      *   An array of space-separated strings representing mutually exclusive
@@ -191,6 +193,8 @@ abstract class Component implements \Stringable
      *
      * Subclasses can override this method to return `true` for self-closing
      * components.
+     *
+     * By default, returns `false`.
      *
      * @return bool
      *   Returns `true` if the component is self-closing (e.g., `<img/>`),

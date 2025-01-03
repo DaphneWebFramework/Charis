@@ -16,8 +16,8 @@ use \Charis\Component;
 use \Charis\FormControls\FormInput;
 
 /**
- * Abstract base class for composite form components, such as `FormStandardComposite`,
- * `FormFloatingLabelComposite`, and `FormCheckableComposite`.
+ * Abstract base class for form composites, combining multiple components into a
+ * cohesive structure.
  *
  * @codeCoverageIgnore
  */

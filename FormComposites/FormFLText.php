@@ -15,6 +15,9 @@ namespace Charis\FormComposites;
 use \Charis\FormControls\FormInput;
 use \Charis\FormControls\FormTextInput;
 
+/**
+ * Represents a text input with a floating label and optional help text.
+ */
 class FormFLText extends FormFloatingLabelComposite
 {
     #region FormComposite overrides --------------------------------------------

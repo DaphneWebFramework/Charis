@@ -30,8 +30,7 @@ class ButtonToolbar extends Component
     {
         return [
             'class' => 'btn-toolbar',
-            'role' => 'toolbar',
-            'aria-label' => ''
+            'role' => 'toolbar'
         ];
     }
 

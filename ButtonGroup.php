@@ -30,8 +30,7 @@ class ButtonGroup extends Component
     {
         return [
             'class' => 'btn-group',
-            'role' => 'group',
-            'aria-label' => ''
+            'role' => 'group'
         ];
     }
 

@@ -13,13 +13,13 @@
 ### Adding
 
 ```
-git submodule add https://github.com/DaphneWebFramework/Charis.git source/classes/Charis
+git submodule add https://github.com/DaphneWebFramework/Charis.git source/backend/Charis
 ```
 
 ### Updating
 
 ```
-git submodule update --remote --merge source/classes/Charis
+git submodule update --remote --merge source/backend/Charis
 ```
 
 ## See Also

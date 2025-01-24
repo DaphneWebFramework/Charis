@@ -1,5 +1,7 @@
 # Charis
 
+[![Backend Tests](https://github.com/DaphneWebFramework/CharisTest/actions/workflows/test-backend.yml/badge.svg)](https://github.com/DaphneWebFramework/CharisTest/actions/workflows/test-backend.yml)
+
 ![](assets/masthead.png)
 
 > <sub><sup>In Greek mythology, Charis is the goddess of grace, beauty, and elegance.</sup></sub>

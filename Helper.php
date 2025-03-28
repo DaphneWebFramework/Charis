@@ -191,9 +191,9 @@ abstract class Helper
             $mutuallyExclusiveClassGroups
         );
 
-        // 2. Merge the user-defined classes and default classes. User classes
-        // take precedence.
-        $mergedClasses = $userClasses + $defaultClasses;
+        // 2. Merge default classes and user-defined classes. Default classes
+        // are placed first, followed by user-defined classes.
+        $mergedClasses = $defaultClasses + $userClasses;
 
         // 3. Resolve conflicts in mutually exclusive class groups.
         foreach ($mutuallyExclusiveClassGroups as $group)

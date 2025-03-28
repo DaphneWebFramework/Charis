@@ -33,19 +33,19 @@ abstract class Helper
      * Resolves attributes by merging defaults, resolving classes, and handling
      * mutually exclusive class groups.
      *
+     * @param array<string, bool|int|float|string>|null $userAttributes
+     *   Attributes provided by the user.
      * @param array<string, bool|int|float|string> $defaultAttributes
      *   Default attributes defined by the component.
-     * @param array<string, bool|int|float|string>|null $userAttributes
-     *   (Optional) Attributes provided by the user.
      * @param string[] $mutuallyExclusiveClassGroups
-     *   (Optional) Mutually exclusive class groups to resolve conflicts.
+     *   Mutually exclusive class groups to resolve conflicts.
      * @return array<string, bool|int|float|string>
      *   Resolved attributes ready for rendering.
      */
     public static function MergeAttributes(
+        ?array $userAttributes,
         array $defaultAttributes,
-        ?array $userAttributes = null,
-        array $mutuallyExclusiveClassGroups = []
+        array $mutuallyExclusiveClassGroups
     ): array
     {
         $userAttributes ??= [];

@@ -30,17 +30,19 @@ abstract class Helper
     #region public -------------------------------------------------------------
 
     /**
-     * Resolves attributes by merging defaults, resolving classes, and handling
-     * mutually exclusive class groups.
+     * Merges user-provided attributes with default attributes, resolving the
+     * `class` attribute if present and eliminating conflicts using mutually
+     * exclusive class groups.
      *
      * @param array<string, bool|int|float|string>|null $userAttributes
-     *   Attributes provided by the user.
+     *   Attributes provided by the user. May be `null`.
      * @param array<string, bool|int|float|string> $defaultAttributes
      *   Default attributes defined by the component.
-     * @param string[] $mutuallyExclusiveClassGroups
-     *   Mutually exclusive class groups to resolve conflicts.
+     * @param array<int, string> $mutuallyExclusiveClassGroups
+     *   Mutually exclusive class groups to resolve conflicts. Each group is a
+     *   space-separated class names where only one class should survive.
      * @return array<string, bool|int|float|string>
-     *   Resolved attributes ready for rendering.
+     *   Final resolved attributes, suitable for rendering.
      */
     public static function MergeAttributes(
         ?array $userAttributes,
@@ -48,15 +50,29 @@ abstract class Helper
         array $mutuallyExclusiveClassGroups
     ): array
     {
-        $userAttributes ??= [];
-        if (\array_key_exists('class', $defaultAttributes) ||
-            \array_key_exists('class', $userAttributes))
-        {
-            $userAttributes['class'] = self::resolveClassAttributes(
-                $defaultAttributes['class'] ?? '',
-                $userAttributes['class'] ?? '',
+        $hasUserClass = $userAttributes !== null
+            && \array_key_exists('class', $userAttributes)
+            && $userAttributes['class'] !== '';
+        $hasDefaultClass = \array_key_exists('class', $defaultAttributes)
+            && $defaultAttributes['class'] !== '';
+
+        if ($hasDefaultClass || $hasUserClass) {
+            $userClasses = $hasUserClass ? $userAttributes['class'] : '';
+            $defaultClasses = $hasDefaultClass ? $defaultAttributes['class'] : '';
+            $resolvedClasses = self::resolveClassAttributes(
+                $userClasses,
+                $defaultClasses,
                 $mutuallyExclusiveClassGroups
             );
+            if ($userAttributes !== null) {
+                $userAttributes['class'] = $resolvedClasses;
+            } else {
+                $defaultAttributes['class'] = $resolvedClasses;
+            }
+        }
+
+        if ($userAttributes === null) {
+            return $defaultAttributes;
         }
         return \array_merge($defaultAttributes, $userAttributes);
     }
@@ -145,31 +161,31 @@ abstract class Helper
      * Resolve classes by merging default classes with user-defined classes,
      * handling duplicates and managing mutually exclusive groups.
      *
-     * @param string $defaultClasses
-     *   A space-separated string of default class names defined by the
-     *   component (e.g., `'btn btn-primary'`).
      * @param string $userClasses
      *   A space-separated string of user-defined class names (e.g., `'btn-lg
      *   btn-primary'`).
+     * @param string $defaultClasses
+     *   A space-separated string of default class names defined by the
+     *   component (e.g., `'btn btn-primary'`).
      * @param string[] $mutuallyExclusiveClassGroups
-     *   (Optional) An array of space-separated strings representing mutually
-     *   exclusive class groups (e.g., `['btn-primary btn-secondary btn-success',
+     *   An array of space-separated strings representing mutually exclusive
+     *   class groups (e.g., `['btn-primary btn-secondary btn-success',
      *   'btn-sm btn-lg']`).
      * @return string
      *   A resolved and merged class string with duplicates removed and mutually
      *   exclusive conflicts resolved.
      */
     private static function resolveClassAttributes(
-        string $defaultClasses,
         string $userClasses,
-        array $mutuallyExclusiveClassGroups = []
+        string $defaultClasses,
+        array $mutuallyExclusiveClassGroups
     ): string
     {
-        // 1. Parse the default classes, user classes, and mutually exclusive
+        // 1. Parse the user classes, default classes, and mutually exclusive
         // class groups into arrays. Then, flip the default and user class
         // arrays to swap their keys with their values for efficient lookups.
-        $defaultClasses = \array_flip(self::parseClassAttribute($defaultClasses));
         $userClasses = \array_flip(self::parseClassAttribute($userClasses));
+        $defaultClasses = \array_flip(self::parseClassAttribute($defaultClasses));
         $mutuallyExclusiveClassGroups = \array_map(
             [self::class, 'parseClassAttribute'],
             $mutuallyExclusiveClassGroups

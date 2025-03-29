@@ -36,14 +36,14 @@ class Generic extends Component
      *
      * @param string $tagName
      *   The HTML tag name for the component (e.g., "div", "span").
-     * @param array<string, bool|int|float|string>|null $attributes
+     * @param ?array<string, mixed> $attributes
      *   (Optional) An associative array of HTML attributes, where keys are
-     *   attribute names and values can be scalar types (`bool`, `int`, `float`,
-     *   or `string`). Pass `null` or an empty array to indicate no attributes.
-     *   Defaults to `null`.
+     *   attribute names and values can be of type `bool`, `int`, `float`,
+     *   `string`, or `Stringable`. Pass `null` or an empty array to indicate no
+     *   attributes. Defaults to `null`.
      * @param string|Component|array<string|Component>|null $content
-     *   (Optional) The content of the component, which can be a string, a
-     *   single `Component` instance, an array of strings and `Component`
+     *   (Optional) The content or child elements of the component. This can be
+     *   a string, a `Component` instance, an array of strings and `Component`
      *   instances, or `null` for no content. Defaults to `null`.
      * @param bool $isSelfClosing
      *   (Optional) Indicates whether the component is self-closing (e.g.,
@@ -53,8 +53,8 @@ class Generic extends Component
         string $tagName,
         ?array $attributes = null,
         string|Component|array|null $content = null,
-        bool $isSelfClosing = false)
-    {
+        bool $isSelfClosing = false
+    ) {
         $this->tagName = $tagName;
         $this->isSelfClosing = $isSelfClosing;
         parent::__construct($attributes, $content);

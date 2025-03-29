@@ -32,7 +32,7 @@ abstract class FormComposite extends Component
     /**
      * Creates the form input component.
      *
-     * @param array<string, bool|int|float|string> $attributes
+     * @param array<string, mixed> $attributes
      *   Base attributes for the input component.
      * @return FormInput
      *   The form input component instance.

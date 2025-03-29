@@ -34,14 +34,14 @@ abstract class Helper
      * `class` attribute if present and eliminating conflicts using mutually
      * exclusive class groups.
      *
-     * @param array<string, bool|int|float|string>|null $userAttributes
-     *   Attributes provided by the user. May be `null`.
-     * @param array<string, bool|int|float|string> $defaultAttributes
+     * @param ?array<string, mixed> $userAttributes
+     *   Attributes provided by the user. Can be `null`.
+     * @param array<string, mixed> $defaultAttributes
      *   Default attributes defined by the component.
      * @param array<int, string> $mutuallyExclusiveClassGroups
      *   Mutually exclusive class groups to resolve conflicts. Each group is a
      *   space-separated class names where only one class should survive.
-     * @return array<string, bool|int|float|string>
+     * @return array<string, mixed>
      *   Final resolved attributes, suitable for rendering.
      */
     public static function MergeAttributes(
@@ -104,9 +104,9 @@ abstract class Helper
      * Returns and removes the specified pseudo attribute from the given
      * attributes array.
      *
-     * @param array<string, bool|int|float|string>|null $attributes
+     * @param ?array<string, mixed> $attributes
      *   An associative array of attributes. The array will be modified in place
-     *   by removing the specified pseudo attribute if found.
+     *   by removing the specified pseudo attribute if found. Can be `null`.
      * @param string $key
      *   The key of the pseudo attribute to consume. Keys must match the defined
      *   pattern and are case-sensitive.

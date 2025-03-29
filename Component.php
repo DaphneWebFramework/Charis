@@ -37,18 +37,21 @@ abstract class Component implements \Stringable
     private const ATTRIBUTE_NAME_PATTERN = '/^[a-zA-Z][a-zA-Z0-9\:\-\.\_]*$/';
 
     /**
-     * An associative array of HTML attributes, where keys are attribute names
-     * and values can be scalar types (`bool`, `int`, `float`, or `string`).
-     * Can be `null` if no attributes are defined.
+     * An associative array of HTML attributes.
      *
-     * @var array<string, bool|int|float|string>|null
+     * The keys are attribute names and the values can be of type `bool`, `int`,
+     * `float`, `string`, or `Stringable`. Can be `null` if no attributes are
+     * defined.
+     *
+     * @var ?array<string, mixed>
      */
     private readonly ?array $attributes;
 
     /**
-     * The content of the component, which can be a string, a single `Component`
-     * instance, an array of strings and `Component` instances, or `null` for
-     * no content.
+     * The contents or child elements of the component.
+     *
+     * This can be a string, a `Component` instance, an array of strings and
+     * `Component` instances. Can also be `null` if no content is defined.
      *
      * @var string|Component|array<string|Component>|null
      */
@@ -59,20 +62,20 @@ abstract class Component implements \Stringable
     /**
      * Constructs a new instance.
      *
-     * @param array<string, bool|int|float|string>|null $attributes
+     * @param ?array<string, mixed> $attributes
      *   (Optional) An associative array of HTML attributes, where keys are
-     *   attribute names and values can be scalar types (`bool`, `int`, `float`,
-     *   or `string`). Pass `null` or an empty array to indicate no attributes.
-     *   Defaults to `null`.
+     *   attribute names and values can be of type `bool`, `int`, `float`,
+     *   `string`, or `Stringable`. Pass `null` or an empty array to indicate no
+     *   attributes. Defaults to `null`.
      * @param string|Component|array<string|Component>|null $content
-     *   (Optional) The content of the component, which can be a string, a
-     *   single `Component` instance, an array of strings and `Component`
+     *   (Optional) The content or child elements of the component. This can be
+     *   a string, a `Component` instance, an array of strings and `Component`
      *   instances, or `null` for no content. Defaults to `null`.
      */
     public function __construct(
         ?array $attributes = null,
-        string|Component|array|null $content = null)
-    {
+        string|Component|array|null $content = null
+    ) {
         $this->attributes = Helper::MergeAttributes(
             $attributes,
             $this->getDefaultAttributes(),
@@ -158,9 +161,10 @@ abstract class Component implements \Stringable
      *
      * By default, returns an empty array.
      *
-     * @return array<string, bool|int|float|string>
+     * @return array<string, mixed>
      *   An associative array of default attributes where keys are attribute
-     *   names and values are scalar types (`bool`, `int`, `float`, or `string`).
+     *   names and values can be of type `bool`, `int`, `float`, `string`, or
+     *   `Stringable`.
      */
     protected function getDefaultAttributes(): array
     {
@@ -233,7 +237,9 @@ abstract class Component implements \Stringable
             if (!\preg_match(self::ATTRIBUTE_NAME_PATTERN, $name)) {
                 throw new \InvalidArgumentException('Invalid attribute name.');
             }
-            if (!\is_scalar($value)) {
+            if ($value instanceof \Stringable) {
+                $value = (string)$value;
+            } elseif (!\is_scalar($value)) {
                 throw new \InvalidArgumentException('Attribute value must be scalar.');
             }
             if ($value === true) {

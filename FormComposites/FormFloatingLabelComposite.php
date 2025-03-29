@@ -27,9 +27,11 @@ abstract class FormFloatingLabelComposite extends FormComposite
     /**
      * Constructs a new instance.
      *
-     * @param array<string, bool|int|float|string>|null $attributes
-     *   (Optional) An associative array where HTML attributes apply to the
-     *   wrapper element, and pseudo attributes configure inner child elements.
+     * @param ?array<string, mixed> $attributes
+     *   (Optional) An associative array where standard HTML attributes apply to
+     *   the wrapper element, and pseudo attributes configure inner components.
+     *   Pass `null` or an empty array to indicate no attributes. Defaults to
+     *   `null`.
      */
     public function __construct(?array $attributes = null)
     {
@@ -46,7 +48,7 @@ abstract class FormFloatingLabelComposite extends FormComposite
         }
         $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
 
-        // 3. Create child components.
+        // 3. Create inner components.
         $content = [
             $this->createFormInputComponent([
                 ...($id !== null ? ['id' => $id] : []),

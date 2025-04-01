@@ -29,7 +29,7 @@ class Navbar extends Component
     protected function getDefaultAttributes(): array
     {
         return [
-            'class' => 'navbar'
+            'class' => 'navbar bg-body-tertiary'
         ];
     }
 

@@ -35,9 +35,16 @@ abstract class Helper
     #region public -------------------------------------------------------------
 
     /**
-     * Merges user-provided attributes with default attributes, resolving the
-     * `class` attribute if present and eliminating conflicts using mutually
-     * exclusive class groups.
+     * Merges user-provided attributes with default attributes, producing a
+     * final set of HTML attributes suitable for rendering.
+     *
+     * If the `class` attribute is present, its values from both sources
+     * are combined. When a mutually exclusive class group is defined
+     * (e.g., `'btn-primary btn-secondary btn-success'`), only one class
+     * from the group will be retained. User-supplied negative class directives
+     * (e.g., `-btn-primary`) remove matching classes from the default list.
+     * Additionally, if the user provides `false` as the class value, the entire
+     * class attribute is removed from the result, overriding any default.
      *
      * @param ?array<string, mixed> $userAttributes
      *   Attributes provided by the user. Can be `null`.
@@ -55,11 +62,13 @@ abstract class Helper
         array $mutuallyExclusiveClassGroups
     ): array
     {
+        // 1. Determine whether the `class` attribute exists in either side.
         $hasUserClass = $userAttributes !== null &&
             \array_key_exists(self::CLASS_ATTRIBUTE_NAME, $userAttributes);
         $hasDefaultClass =
             \array_key_exists(self::CLASS_ATTRIBUTE_NAME, $defaultAttributes);
 
+        // 2. Extract class values.
         $userClass = $hasUserClass
             ? $userAttributes[self::CLASS_ATTRIBUTE_NAME]
             : null;
@@ -67,6 +76,8 @@ abstract class Helper
             ? $defaultAttributes[self::CLASS_ATTRIBUTE_NAME]
             : null;
 
+        // 3. If user sets `class=true` or `class=false`, remove `class` from
+        // default attributes and preserve the boolean for the renderer.
         if (\is_bool($userClass)) {
             if ($hasDefaultClass) {
                 unset($defaultAttributes[self::CLASS_ATTRIBUTE_NAME]);
@@ -74,16 +85,26 @@ abstract class Helper
             return \array_merge($defaultAttributes, $userAttributes);
         }
 
+        // 4. Check whether either class value is resolvable (string-like).
         $isUserClassResolvable = self::isResolvableClassAttribute($userClass);
         $isDefaultClassResolvable = self::isResolvableClassAttribute($defaultClass);
 
         if ($isUserClassResolvable || $isDefaultClassResolvable)
         {
-            $resolvedClasses = self::resolveClassAttributes(
+            // 4.1. Process negative class directives.
+            [$userClass, $defaultClass] = self::filterNegativeClassDirectives(
                 $isUserClassResolvable ? (string)$userClass : '',
-                $isDefaultClassResolvable ? (string)$defaultClass : '',
+                $isDefaultClassResolvable ? (string)$defaultClass : ''
+            );
+
+            // 4.2. Resolve combined class list and apply mutual exclusion rules.
+            $resolvedClasses = self::resolveClassAttributes(
+                $userClass,
+                $defaultClass,
                 $mutuallyExclusiveClassGroups
             );
+
+            // 4.3. Inject resolved class string back into the appropriate side.
             if ($userAttributes !== null) {
                 $userAttributes['class'] = $resolvedClasses;
             } else {
@@ -91,6 +112,7 @@ abstract class Helper
             }
         }
 
+        // 5. Return final merged attributes.
         if ($userAttributes === null) {
             return $defaultAttributes;
         }
@@ -192,6 +214,47 @@ abstract class Helper
             || $value instanceof \Stringable
             || \is_int($value)
             || \is_float($value);
+    }
+
+    /**
+     * Processes negative class directives in a user-defined class attribute
+     * string by removing them from the default classes.
+     *
+     * A negative class is any class prefixed with `-`, e.g., `-btn-primary`.
+     * These are removed from the default classes and not included in the result.
+     *
+     * @param string $userClasses
+     *   A space-separated string of user-defined classes including negative
+     *   classes. e.g., `-btn-primary btn-darkgreen`.
+     * @param string $defaultClasses
+     *   A space-separated string of default classes.
+     * @return array<int, string>
+     *   A tuple containing two strings: the filtered user class string and the
+     *   filtered default class string. The user class string contains only
+     *   positive classes, while the default class string has negative classes
+     *   removed.
+     */
+    private static function filterNegativeClassDirectives(
+        string $userClasses,
+        string $defaultClasses
+    ): array
+    {
+        $userClasses = self::parseClassAttribute($userClasses);
+        $defaultClasses = self::parseClassAttribute($defaultClasses);
+        $negatives = [];
+        $positives = [];
+        foreach ($userClasses as $class) {
+            if (\str_starts_with($class, '-')) {
+                $negatives[] = \substr($class, 1);
+            } else {
+                $positives[] = $class;
+            }
+        }
+        $defaultClasses = \array_values(\array_diff($defaultClasses, $negatives));
+        return [
+            \implode(' ', $positives),
+            \implode(' ', $defaultClasses)
+        ];
     }
 
     /**

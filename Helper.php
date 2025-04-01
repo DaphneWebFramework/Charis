@@ -27,6 +27,11 @@ abstract class Helper
      */
     private const PSEUDO_ATTRIBUTE_NAME_PATTERN = '/^:[a-zA-Z][a-zA-Z0-9\-]*$/';
 
+    /**
+     * The name of the `class` attribute in HTML.
+     */
+    private const CLASS_ATTRIBUTE_NAME = 'class';
+
     #region public -------------------------------------------------------------
 
     /**
@@ -50,18 +55,33 @@ abstract class Helper
         array $mutuallyExclusiveClassGroups
     ): array
     {
-        $hasUserClass = $userAttributes !== null
-            && \array_key_exists('class', $userAttributes)
-            && $userAttributes['class'] !== '';
-        $hasDefaultClass = \array_key_exists('class', $defaultAttributes)
-            && $defaultAttributes['class'] !== '';
+        $hasUserClass = $userAttributes !== null &&
+            \array_key_exists(self::CLASS_ATTRIBUTE_NAME, $userAttributes);
+        $hasDefaultClass =
+            \array_key_exists(self::CLASS_ATTRIBUTE_NAME, $defaultAttributes);
 
-        if ($hasDefaultClass || $hasUserClass) {
-            $userClasses = $hasUserClass ? $userAttributes['class'] : '';
-            $defaultClasses = $hasDefaultClass ? $defaultAttributes['class'] : '';
+        $userClass = $hasUserClass
+            ? $userAttributes[self::CLASS_ATTRIBUTE_NAME]
+            : null;
+        $defaultClass = $hasDefaultClass
+            ? $defaultAttributes[self::CLASS_ATTRIBUTE_NAME]
+            : null;
+
+        if (\is_bool($userClass)) {
+            if ($hasDefaultClass) {
+                unset($defaultAttributes[self::CLASS_ATTRIBUTE_NAME]);
+            }
+            return \array_merge($defaultAttributes, $userAttributes);
+        }
+
+        $isUserClassResolvable = self::isResolvableClassAttribute($userClass);
+        $isDefaultClassResolvable = self::isResolvableClassAttribute($defaultClass);
+
+        if ($isUserClassResolvable || $isDefaultClassResolvable)
+        {
             $resolvedClasses = self::resolveClassAttributes(
-                $userClasses,
-                $defaultClasses,
+                $isUserClassResolvable ? (string)$userClass : '',
+                $isDefaultClassResolvable ? (string)$defaultClass : '',
                 $mutuallyExclusiveClassGroups
             );
             if ($userAttributes !== null) {
@@ -155,6 +175,23 @@ abstract class Helper
             return [];
         }
         return \explode(' ', \preg_replace('/\s+/', ' ', $classes));
+    }
+
+    /**
+     * Checks if the given value is a resolvable class attribute.
+     *
+     * @param mixed $value
+     *   The value to check.
+     * @return bool
+     *   Returns `true` if the value is a string, integer, float, or an object
+     *   implementing `Stringable`. Returns `false` otherwise.
+     */
+    private static function isResolvableClassAttribute(mixed $value): bool
+    {
+        return \is_string($value)
+            || $value instanceof \Stringable
+            || \is_int($value)
+            || \is_float($value);
     }
 
     /**

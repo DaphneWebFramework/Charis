@@ -54,7 +54,12 @@ trait Utility
         $hasDefaultClass =
             \array_key_exists($classKey, $defaultAttributes);
 
-        // 2. Extract class values.
+        // 2. If neither side has a `class` attribute, merge the two arrays.
+        if (!$hasUserClass && !$hasDefaultClass) {
+            goto Merge;
+        }
+
+        // 3. Extract class values.
         $userClass = $hasUserClass
             ? $userAttributes[$classKey]
             : null;
@@ -62,35 +67,34 @@ trait Utility
             ? $defaultAttributes[$classKey]
             : null;
 
-        // 3. If user sets `class=true` or `class=false`, remove `class` from
+        // 4. If user sets `class=true` or `class=false`, remove `class` from
         // default attributes and preserve the boolean for the renderer.
         if (\is_bool($userClass)) {
             if ($hasDefaultClass) {
                 unset($defaultAttributes[$classKey]);
             }
-            return \array_merge($defaultAttributes, $userAttributes);
+            goto Merge;
         }
 
-        // 4. Check whether either class value is resolvable (string-like).
+        // 5. Check whether either class value is resolvable (string-like).
         $isUserClassResolvable = $this->isResolvableClassAttribute($userClass);
         $isDefaultClassResolvable = $this->isResolvableClassAttribute($defaultClass);
-
         if ($isUserClassResolvable || $isDefaultClassResolvable)
         {
-            // 4.1. Process negative class directives.
+            // 5.1. Process negative class directives.
             [$userClass, $defaultClass] = $this->filterNegativeClassDirectives(
                 $isUserClassResolvable ? (string)$userClass : '',
                 $isDefaultClassResolvable ? (string)$defaultClass : ''
             );
 
-            // 4.2. Resolve combined class list and apply mutual exclusion rules.
+            // 5.2. Resolve combined class list and apply mutual exclusion rules.
             $resolvedClasses = $this->resolveClassAttributes(
                 $userClass,
                 $defaultClass,
                 $mutuallyExclusiveClassGroups
             );
 
-            // 4.3. Inject resolved class string back into the appropriate side.
+            // 5.3. Inject resolved class string back into the appropriate side.
             if ($userAttributes !== null) {
                 $userAttributes[$classKey] = $resolvedClasses;
             } else {
@@ -98,11 +102,11 @@ trait Utility
             }
         }
 
-        // 5. Return final merged attributes.
-        if ($userAttributes === null) {
-            return $defaultAttributes;
-        }
-        return \array_merge($defaultAttributes, $userAttributes);
+    Merge:
+        // 6. Return final merged attributes.
+        return $userAttributes === null
+            ? $defaultAttributes
+            : \array_merge($defaultAttributes, $userAttributes);
     }
 
     /**

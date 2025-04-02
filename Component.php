@@ -26,6 +26,8 @@ namespace Charis;
  */
 abstract class Component implements \Stringable
 {
+    use Utility;
+
     /**
      * Regex pattern for validating HTML tag names.
      */
@@ -48,9 +50,9 @@ abstract class Component implements \Stringable
     private readonly ?array $attributes;
 
     /**
-     * The contents or child elements of the component.
+     * The content or child elements of the component.
      *
-     * This can be a string, a `Component` instance, an array of strings and
+     * This can be a string, a `Component` instance, or an array of strings and
      * `Component` instances. Can also be `null` if no content is defined.
      *
      * @var string|Component|array<string|Component>|null
@@ -76,7 +78,7 @@ abstract class Component implements \Stringable
         ?array $attributes = null,
         string|Component|array|null $content = null
     ) {
-        $this->attributes = Helper::MergeAttributes(
+        $this->attributes = $this->mergeAttributes(
             $attributes,
             $this->getDefaultAttributes(),
             $this->getMutuallyExclusiveClassAttributeGroups()

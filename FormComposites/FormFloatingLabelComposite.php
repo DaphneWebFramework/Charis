@@ -36,11 +36,11 @@ abstract class FormFloatingLabelComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = Helper::ConsumePseudoAttribute($attributes, ':id');
-        $name = Helper::ConsumePseudoAttribute($attributes, ':name');
-        $label = Helper::ConsumePseudoAttribute($attributes, ':label');
-        $help = Helper::ConsumePseudoAttribute($attributes, ':help');
-        $disabled = Helper::ConsumePseudoAttribute($attributes, ':disabled', false);
+        $id = $this->consumePseudoAttribute($attributes, ':id');
+        $name = $this->consumePseudoAttribute($attributes, ':name');
+        $label = $this->consumePseudoAttribute($attributes, ':label');
+        $help = $this->consumePseudoAttribute($attributes, ':help');
+        $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {

@@ -52,12 +52,12 @@ abstract class FormCheckableComposite extends FormComposite
     public function __construct(?array $attributes = null)
     {
         // 1. Consume pseudo attributes.
-        $id = Helper::ConsumePseudoAttribute($attributes, ':id');
-        $name = Helper::ConsumePseudoAttribute($attributes, ':name');
-        $label = Helper::ConsumePseudoAttribute($attributes, ':label');
-        $help = Helper::ConsumePseudoAttribute($attributes, ':help');
-        $checked = Helper::ConsumePseudoAttribute($attributes, ':checked', false);
-        $disabled = Helper::ConsumePseudoAttribute($attributes, ':disabled', false);
+        $id = $this->consumePseudoAttribute($attributes, ':id');
+        $name = $this->consumePseudoAttribute($attributes, ':name');
+        $label = $this->consumePseudoAttribute($attributes, ':label');
+        $help = $this->consumePseudoAttribute($attributes, ':help');
+        $checked = $this->consumePseudoAttribute($attributes, ':checked', false);
+        $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {

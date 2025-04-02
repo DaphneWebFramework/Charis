@@ -27,7 +27,7 @@ class FormSwitch extends FormCheckableComposite
 
     protected function getCompositeClassAttribute(): string
     {
-        return Helper::CombineClassAttributes(
+        return $this->combineClassAttributes(
             parent::getCompositeClassAttribute(), 'form-switch');
     }
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormEmailInput.php
+ * FormPasswordInput.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -13,16 +13,16 @@
 namespace Charis\FormControls;
 
 /**
- * Represents an email input.
+ * Represents a password input.
  */
-class FormEmailInput extends FormInput
+class FormPasswordInput extends FormInput
 {
     #region Component overrides ------------------------------------------------
 
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
-            'type' => 'email'
+            'type' => 'password'
         ]);
     }
 

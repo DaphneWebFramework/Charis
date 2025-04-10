@@ -12,7 +12,6 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\Helper;
 use \Charis\FormControls\FormInput;
 use \Charis\FormControls\FormSwitchInput;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormFLText.php
+ * FormTextFL.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -18,7 +18,7 @@ use \Charis\FormControls\FormTextInput;
 /**
  * Represents a text input with a floating label and optional help text.
  */
-class FormFLText extends FormFloatingLabelComposite
+class FormTextFL extends FormFloatingLabelComposite
 {
     #region FormComposite overrides --------------------------------------------
 

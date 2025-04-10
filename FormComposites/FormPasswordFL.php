@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * FormFLEmail.php
+ * FormPasswordFL.php
  *
  * (C) 2024 by Eylem Ugurel
  *
@@ -13,18 +13,18 @@
 namespace Charis\FormComposites;
 
 use \Charis\FormControls\FormInput;
-use \Charis\FormControls\FormEmailInput;
+use \Charis\FormControls\FormPasswordInput;
 
 /**
- * Represents an email input with a floating label and optional help text.
+ * Represents a password input with a floating label and optional help text.
  */
-class FormFLEmail extends FormFloatingLabelComposite
+class FormPasswordFL extends FormFloatingLabelComposite
 {
     #region FormComposite overrides --------------------------------------------
 
     protected function createFormInputComponent(array $attributes): FormInput
     {
-        return new FormEmailInput($attributes);
+        return new FormPasswordInput($attributes);
     }
 
     #endregion FormComposite overrides

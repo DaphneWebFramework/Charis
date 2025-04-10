@@ -34,6 +34,8 @@ use \Charis\FormHelpText;
  *   Defaults to `false`.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
  *   Defaults to `false`.
+ * - ':required': Boolean indicating whether the input is required. Defaults to
+ *   `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/checks-radios/
  */
@@ -57,6 +59,7 @@ abstract class FormCheckableComposite extends FormComposite
         $help = $this->consumePseudoAttribute($attributes, ':help');
         $checked = $this->consumePseudoAttribute($attributes, ':checked', false);
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {
@@ -71,7 +74,8 @@ abstract class FormCheckableComposite extends FormComposite
                 ...($name !== null ? ['name' => $name] : []),
                 ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
                 'checked' => $checked,
-                'disabled' => $disabled
+                'disabled' => $disabled,
+                'required' => $required
             ])
         ];
         if ($label !== null) {

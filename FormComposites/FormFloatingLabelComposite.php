@@ -19,6 +19,22 @@ use \Charis\FormHelpText;
  * Abstract base class for form composites, combining an input control with a
  * floating label and optional help text.
  *
+ * Aside from HTML attributes that apply to the wrapper element, this component
+ * supports the following pseudo attributes in its constructor:
+ *
+ * - `:id`: A unique identifier for the input element. If omitted and a `:label`
+ *   is provided, an ID is generated automatically.
+ * - `:name`: The name attribute for the input element, used to identify the
+ *   input's value during form submission.
+ * - `:label`: Text for the associated `<label>` element. If omitted, no label
+ *   is rendered.
+ * - `:help`: Additional descriptive text. If provided, a `<div>` element with
+ *   the "form-text" class is rendered.
+ * - `:disabled`: Boolean indicating whether the input should be disabled.
+ *   Defaults to `false`.
+ * - ':required': Boolean indicating whether the input is required. Defaults to
+ *   `false`.
+ *
  * @link https://getbootstrap.com/docs/5.3/forms/floating-labels/
  */
 abstract class FormFloatingLabelComposite extends FormComposite
@@ -40,6 +56,7 @@ abstract class FormFloatingLabelComposite extends FormComposite
         $label = $this->consumePseudoAttribute($attributes, ':label');
         $help = $this->consumePseudoAttribute($attributes, ':help');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {
@@ -53,8 +70,9 @@ abstract class FormFloatingLabelComposite extends FormComposite
                 ...($id !== null ? ['id' => $id] : []),
                 ...($name !== null ? ['name' => $name] : []),
                 ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
-                'placeholder' => '', // required
-                'disabled' => $disabled
+                'placeholder' => '', // mandatory for floating labels
+                'disabled' => $disabled,
+                'required' => $required,
             ])
         ];
         if ($label !== null) {

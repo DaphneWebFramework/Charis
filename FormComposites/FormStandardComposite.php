@@ -24,8 +24,8 @@ use \Charis\FormHelpText;
  *
  * - `:id`: A unique identifier for the input element. If omitted and a `:label`
  *   is provided, an ID is generated automatically.
- * - `:name`: The name attribute for the input element, used for grouping
- *   related inputs and identifying the input's value during form submission.
+ * - `:name`: The name attribute for the input element, used to identify the
+ *   input's value during form submission.
  * - `:label`: Text for the associated `<label>` element. If omitted, no label
  *   is rendered.
  * - `:help`: Additional descriptive text. If provided, a `<div>` element with
@@ -34,6 +34,8 @@ use \Charis\FormHelpText;
  *   the input element when it is empty.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
  *   Defaults to `false`.
+ * - ':required': Boolean indicating whether the input is required. Defaults to
+ *   `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/form-control/
  */
@@ -57,6 +59,7 @@ abstract class FormStandardComposite extends FormComposite
         $help = $this->consumePseudoAttribute($attributes, ':help');
         $placeholder = $this->consumePseudoAttribute($attributes, ':placeholder');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
         // 2. Generate identifiers.
         if ($id === null && $label !== null) {
@@ -74,7 +77,8 @@ abstract class FormStandardComposite extends FormComposite
             ...($name !== null ? ['name' => $name] : []),
             ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
             ...($placeholder !== null ? ['placeholder' => $placeholder] : []),
-            'disabled' => $disabled
+            'disabled' => $disabled,
+            'required' => $required
         ]);
         if ($help !== null) {
             $content[] = new FormHelpText(['id' => $helpId], $help);

@@ -87,13 +87,17 @@ abstract class Component implements \Stringable
     }
 
     /**
-     * Converts the component to its HTML string representation.
+     * Converts the component to its HTML string representation, followed by a
+     * newline.
      *
-     * This method simply calls the `Render` method, performs no additional
-     * processing.
+     * This method calls the `Render` method and appends a newline character to
+     * address a common output issue where the PHP closing tag (`?>`) consumes
+     * a trailing newline in the rendered output. By appending the newline here,
+     * components produce properly formatted HTML when echoed or embedded in
+     * templates.
      *
      * @return string
-     *   The HTML string representation of the component.
+     *   The HTML string representation of the component, followed by a newline.
      * @throws \InvalidArgumentException
      *   If the `Render` method throws this exception.
      * @throws \LogicException
@@ -103,7 +107,7 @@ abstract class Component implements \Stringable
      */
     public function __toString(): string
     {
-        return $this->Render();
+        return $this->Render() . PHP_EOL;
     }
 
     /**
@@ -259,7 +263,15 @@ abstract class Component implements \Stringable
     }
 
     /**
-     * Renders the content as string.
+     * Renders the content as a string.
+     *
+     * If the content includes child components, their string representations
+     * are trimmed to remove the trailing newline added by their `__toString()`
+     * method. This preserves inline formatting when multiple components are
+     * rendered together (e.g., buttons inside a ButtonGroup).
+     *
+     * Raw strings are rendered as-is without trimming, so any intentional
+     * whitespace or formatting is preserved.
      *
      * @return string
      *   The rendered content.
@@ -278,11 +290,15 @@ abstract class Component implements \Stringable
                     throw new \InvalidArgumentException(
                         'Content array must only contain strings or Component instances.');
                 }
-                $items[] = (string)$item;
+                $items[] = \is_string($item)
+                    ? $item
+                    : \rtrim((string)$item, PHP_EOL);
             }
             return \implode('', $items);
         } else {
-            return (string)$this->content;
+            return \is_string($this->content)
+                ? $this->content
+                : \rtrim((string)$this->content, PHP_EOL);
         }
     }
 

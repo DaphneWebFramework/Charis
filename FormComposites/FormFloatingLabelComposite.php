@@ -32,7 +32,7 @@ use \Charis\FormHelpText;
  *   the "form-text" class is rendered.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
  *   Defaults to `false`.
- * - ':required': Boolean indicating whether the input is required. Defaults to
+ * - `:required`: Boolean indicating whether the input is required. Defaults to
  *   `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/floating-labels/

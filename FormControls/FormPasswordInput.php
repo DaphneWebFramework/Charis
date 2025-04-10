@@ -22,7 +22,9 @@ class FormPasswordInput extends FormInput
     protected function getDefaultAttributes(): array
     {
         return \array_merge(parent::getDefaultAttributes(), [
-            'type' => 'password'
+            'type' => 'password',
+            'minlength' => 8, // NIST & OWASP recommended minimum
+            'maxlength' => 72 // Safe upper limit for bcrypt algorithm
         ]);
     }
 

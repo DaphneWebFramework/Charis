@@ -26,9 +26,7 @@ abstract class FormControl extends Component
 
     protected function getDefaultAttributes(): array
     {
-        return [
-            'class' => 'form-control'
-        ];
+        return ['class' => 'form-control'];
     }
 
     protected function getMutuallyExclusiveClassAttributeGroups(): array

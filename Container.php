@@ -28,9 +28,7 @@ class Container extends Component
 
     protected function getDefaultAttributes(): array
     {
-        return [
-            'class' => 'container'
-        ];
+        return ['class' => 'container'];
     }
 
     protected function getMutuallyExclusiveClassAttributeGroups(): array

@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a toggle button for collapsing navbar content.
+ * Represents a toggle button for a collapsible section in a navigation bar.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#toggler
  */

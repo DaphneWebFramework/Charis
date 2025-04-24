@@ -13,15 +13,19 @@
 namespace Charis;
 
 /**
- * Represents a single navigation item inside a navbar.
+ * Represents a navigation item in a navigation bar.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:
  *
- * - `:label`: The text for the link.
- * - `:href`: The URL for the link.
+ * - `:label`: The text for the link. Defaults to an empty string.
+ * - `:href`: The URL for the link. Defaults to `#`.
  * - `:active`: Boolean indicating whether the link represents the current page.
- * - `:disabled`: Boolean indicating whether the link is disabled.
+ *   Defaults to `false`.
+ * - `:disabled`: Boolean indicating whether the link is disabled. Defaults to
+ *   `false`.
+ *
+ * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */
 class NavbarItem extends Component
 {

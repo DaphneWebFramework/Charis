@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents the collapsible container inside a navbar.
+ * Represents the collapsible section of a navigation bar.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#toggler
  */

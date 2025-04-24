@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a brand element inside a navigation bar.
+ * Represents the brand element inside a navigation bar.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#brand
  */

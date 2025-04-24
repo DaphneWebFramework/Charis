@@ -22,6 +22,8 @@ namespace Charis;
  * - `:href`: The URL for the link. Defaults to `#`.
  * - `:disabled`: Boolean indicating whether the link is disabled. Defaults to
  *   `false`.
+ *
+ * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */
 class NavbarDropdownItem extends Component
 {

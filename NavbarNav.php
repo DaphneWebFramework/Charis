@@ -13,7 +13,7 @@
 namespace Charis;
 
 /**
- * Represents a container for navigation items inside a navbar.
+ * Represents a group of navigation items in a navigation bar.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */

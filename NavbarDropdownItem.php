@@ -20,6 +20,7 @@ namespace Charis;
  *
  * - `:label`: The text for the link. Defaults to an empty string.
  * - `:href`: The URL for the link. Defaults to `#`.
+ * - `:id`: The ID attribute for the link. Defaults to `null`.
  * - `:disabled`: Boolean indicating whether the link is disabled. Defaults to
  *   `false`.
  *
@@ -40,12 +41,16 @@ class NavbarDropdownItem extends Component
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
         $href = $this->consumePseudoAttribute($attributes, ':href', '#');
+        $id = $this->consumePseudoAttribute($attributes, ':id');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         $linkAttributes = [
             'class' => 'dropdown-item',
             'href' => $href
         ];
+        if ($id !== null) {
+            $linkAttributes['id'] = $id;
+        }
         if ($disabled) {
             $linkAttributes['class'] .= ' disabled';
             $linkAttributes['aria-disabled'] = 'true';

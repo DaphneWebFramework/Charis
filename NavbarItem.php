@@ -20,6 +20,7 @@ namespace Charis;
  *
  * - `:label`: The text for the link. Defaults to an empty string.
  * - `:href`: The URL for the link. Defaults to `#`.
+ * - `:id`: The ID attribute for the link. Defaults to `null`.
  * - `:active`: Boolean indicating whether the link represents the current page.
  *   Defaults to `false`.
  * - `:disabled`: Boolean indicating whether the link is disabled. Defaults to
@@ -42,6 +43,7 @@ class NavbarItem extends Component
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
         $href = $this->consumePseudoAttribute($attributes, ':href', '#');
+        $id = $this->consumePseudoAttribute($attributes, ':id');
         $active = $this->consumePseudoAttribute($attributes, ':active', false);
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
@@ -49,6 +51,9 @@ class NavbarItem extends Component
             'class' => 'nav-link',
             'href' => $href
         ];
+        if ($id !== null) {
+            $linkAttributes['id'] = $id;
+        }
         if ($active) {
             $linkAttributes['class'] .= ' active';
             $linkAttributes['aria-current'] = 'page';

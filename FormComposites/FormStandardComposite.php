@@ -57,6 +57,7 @@ abstract class FormStandardComposite extends FormComposite
         $label = $this->consumePseudoAttribute($attributes, ':label');
         $help = $this->consumePseudoAttribute($attributes, ':help');
         $placeholder = $this->consumePseudoAttribute($attributes, ':placeholder');
+        $autocomplete = $this->consumePseudoAttribute($attributes, ':autocomplete');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
         $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
@@ -77,6 +78,9 @@ abstract class FormStandardComposite extends FormComposite
         }
         if ($placeholder !== null) {
             $inputAttributes['placeholder'] = $placeholder;
+        }
+        if ($autocomplete !== null) {
+            $inputAttributes['autocomplete'] = $autocomplete;
         }
         $inputAttributes['disabled'] = $disabled;
         $inputAttributes['required'] = $required;

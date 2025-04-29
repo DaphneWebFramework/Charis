@@ -54,6 +54,7 @@ abstract class FormFloatingLabelComposite extends FormComposite
         $name = $this->consumePseudoAttribute($attributes, ':name');
         $label = $this->consumePseudoAttribute($attributes, ':label');
         $help = $this->consumePseudoAttribute($attributes, ':help');
+        $autocomplete = $this->consumePseudoAttribute($attributes, ':autocomplete');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
         $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
@@ -73,6 +74,9 @@ abstract class FormFloatingLabelComposite extends FormComposite
             $inputAttributes['aria-describedby'] = $helpId;
         }
         $inputAttributes['placeholder'] = ''; // mandatory for floating labels
+        if ($autocomplete !== null) {
+            $inputAttributes['autocomplete'] = $autocomplete;
+        }
         $inputAttributes['disabled'] = $disabled;
         $inputAttributes['required'] = $required;
 

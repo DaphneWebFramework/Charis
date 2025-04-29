@@ -50,7 +50,6 @@ abstract class FormFloatingLabelComposite extends FormComposite
      */
     public function __construct(?array $attributes = null)
     {
-        // 1. Consume pseudo attributes.
         $id = $this->consumePseudoAttribute($attributes, ':id');
         $name = $this->consumePseudoAttribute($attributes, ':name');
         $label = $this->consumePseudoAttribute($attributes, ':label');
@@ -58,22 +57,27 @@ abstract class FormFloatingLabelComposite extends FormComposite
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
         $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
-        // 2. Generate identifiers.
         if ($id === null && $label !== null) {
             $id = 'form-input-' . \uniqid();
         }
         $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
 
-        // 3. Create inner components.
+        $inputAttributes = [];
+        if ($id !== null) {
+            $inputAttributes['id'] = $id;
+        }
+        if ($name !== null) {
+            $inputAttributes['name'] = $name;
+        }
+        if ($helpId !== null) {
+            $inputAttributes['aria-describedby'] = $helpId;
+        }
+        $inputAttributes['placeholder'] = ''; // mandatory for floating labels
+        $inputAttributes['disabled'] = $disabled;
+        $inputAttributes['required'] = $required;
+
         $content = [
-            $this->createFormInputComponent([
-                ...($id !== null ? ['id' => $id] : []),
-                ...($name !== null ? ['name' => $name] : []),
-                ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
-                'placeholder' => '', // mandatory for floating labels
-                'disabled' => $disabled,
-                'required' => $required,
-            ])
+            $this->createFormInputComponent($inputAttributes)
         ];
         if ($label !== null) {
             $content[] = new Label(['for' => $id], $label);
@@ -82,7 +86,6 @@ abstract class FormFloatingLabelComposite extends FormComposite
             $content[] = new FormHelpText(['id' => $helpId], $help);
         }
 
-        // 4. Pass attributes and content to parent constructor.
         parent::__construct($attributes, $content);
     }
 

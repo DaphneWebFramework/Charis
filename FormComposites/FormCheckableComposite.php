@@ -52,7 +52,6 @@ abstract class FormCheckableComposite extends FormComposite
      */
     public function __construct(?array $attributes = null)
     {
-        // 1. Consume pseudo attributes.
         $id = $this->consumePseudoAttribute($attributes, ':id');
         $name = $this->consumePseudoAttribute($attributes, ':name');
         $label = $this->consumePseudoAttribute($attributes, ':label');
@@ -61,22 +60,27 @@ abstract class FormCheckableComposite extends FormComposite
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
         $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
-        // 2. Generate identifiers.
         if ($id === null && $label !== null) {
             $id = 'form-input-' . \uniqid();
         }
         $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
 
-        // 3. Create inner components.
+        $inputAttributes = [];
+        if ($id !== null) {
+            $inputAttributes['id'] = $id;
+        }
+        if ($name !== null) {
+            $inputAttributes['name'] = $name;
+        }
+        if ($helpId !== null) {
+            $inputAttributes['aria-describedby'] = $helpId;
+        }
+        $inputAttributes['checked'] = $checked;
+        $inputAttributes['disabled'] = $disabled;
+        $inputAttributes['required'] = $required;
+
         $content = [
-            $this->createFormInputComponent([
-                ...($id !== null ? ['id' => $id] : []),
-                ...($name !== null ? ['name' => $name] : []),
-                ...($helpId !== null ? ['aria-describedby' => $helpId] : []),
-                'checked' => $checked,
-                'disabled' => $disabled,
-                'required' => $required
-            ])
+            $this->createFormInputComponent($inputAttributes)
         ];
         if ($label !== null) {
             $content[] = new FormCheckLabel(['for' => $id], $label);
@@ -85,7 +89,6 @@ abstract class FormCheckableComposite extends FormComposite
             $content[] = new FormHelpText(['id' => $helpId], $help);
         }
 
-        // 4. Pass attributes and content to parent constructor.
         parent::__construct($attributes, $content);
     }
 

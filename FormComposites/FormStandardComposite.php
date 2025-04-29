@@ -32,6 +32,8 @@ use \Charis\FormHelpText;
  *   the "form-text" class is rendered.
  * - `:placeholder`: Specifies a hint or short description that appears inside
  *   the input element when it is empty.
+ * - `:autocomplete`: Provides a hint to browsers for autofilling the input
+ *   field with previously entered data.
  * - `:disabled`: Boolean indicating whether the input should be disabled.
  *   Defaults to `false`.
  * - `:required`: Boolean indicating whether the input is required. Defaults to

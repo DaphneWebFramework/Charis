@@ -22,6 +22,8 @@ namespace Charis;
  *   string.
  * - `:disabled`: Boolean indicating whether the dropdown is disabled. Defaults
  *   to `false`.
+ * - `:alignRight`: Boolean indicating whether the dropdown menu should be
+ *   aligned to the right. Defaults to `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */
@@ -43,6 +45,7 @@ class NavbarDropdown extends Component
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $alignRight = $this->consumePseudoAttribute($attributes, ':alignRight', false);
 
         $linkAttributes = [
             'class' => 'nav-link dropdown-toggle',
@@ -57,7 +60,9 @@ class NavbarDropdown extends Component
         }
         $content = [
             new Generic('a', $linkAttributes, $label),
-            new Generic('ul', ['class' => 'dropdown-menu'], $items)
+            new Generic('ul', [
+                'class' => 'dropdown-menu' . ($alignRight ? ' dropdown-menu-end' : '')
+            ], $items)
         ];
 
         parent::__construct($attributes, $content);

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PillTab.php
+ * TabPane.php
  *
  * (C) 2025 by Eylem Ugurel
  *
@@ -13,19 +13,19 @@
 namespace Charis;
 
 /**
- * Represents a tab item in a pill-based tab navigation.
+ * Represents a content pane in a tab navigation.
  *
  * Aside from HTML attributes, this component supports the following pseudo
  * attributes in its constructor:
  *
- * - `:key` (string, required): A unique name used to associate this item with
- *   its corresponding content pane.
- * - `:active` (boolean): Indicates whether this item is initially active.
+ * - `:key` (string, required): A unique name used to associate this pane with
+ *   its corresponding tab item.
+ * - `:active` (boolean): Indicates whether this pane is initially visible.
  *   Defaults to `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
  */
-class PillTab extends Component
+class TabPane extends Component
 {
     /**
      * Constructs a new instance.
@@ -49,24 +49,18 @@ class PillTab extends Component
         }
         $active = $this->consumePseudoAttribute($attributes, ':active', false);
 
-        $id = "tab-{$key}";
-        $paneId = "pane-{$key}";
+        $id = "pane-{$key}";
+        $tabId = "tab-{$key}";
 
         $attributes ??= [];
         $attributes['id'] ??= $id;
         if ($active) {
-            if (($attributes['disabled'] ?? false) === true) {
-                $active = false;
-            } else {
-                $attributes['class'] = $this->combineClassAttributes(
-                    $attributes['class'] ?? '',
-                    'active'
-                );
-            }
+            $attributes['class'] = $this->combineClassAttributes(
+                $attributes['class'] ?? '',
+                'show active'
+            );
         }
-        $attributes['data-bs-target'] ??= "#{$paneId}";
-        $attributes['aria-controls'] ??= $paneId;
-        $attributes['aria-selected'] = $active ? 'true' : 'false';
+        $attributes['aria-labelledby'] ??= $tabId;
 
         parent::__construct($attributes, $content);
     }
@@ -75,20 +69,17 @@ class PillTab extends Component
 
     protected function getTagName(): string
     {
-        return 'button';
+        return 'div';
     }
 
     protected function getDefaultAttributes(): array
     {
         return [
             'id' => '',
-            'class' => 'nav-link',
-            'type' => 'button',
-            'role' => 'tab',
-            'data-bs-toggle' => 'pill',
-            'data-bs-target' => '#',
-            'aria-controls' => '',
-            'aria-selected' => ''
+            'class' => 'tab-pane fade',
+            'role' => 'tabpanel',
+            'aria-labelledby' => '',
+            'tabindex' => '0'
         ];
     }
 

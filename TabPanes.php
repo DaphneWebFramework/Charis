@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * TabContent.php
+ * TabPanes.php
  *
  * (C) 2025 by Eylem Ugurel
  *
@@ -17,7 +17,7 @@ namespace Charis;
  *
  * @link https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
  */
-class TabContent extends Component
+class TabPanes extends Component
 {
     #region Component overrides ------------------------------------------------
 

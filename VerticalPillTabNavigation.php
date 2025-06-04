@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * VerticalPillTabLayout.php
+ * VerticalPillTabNavigation.php
  *
  * (C) 2025 by Eylem Ugurel
  *
@@ -18,7 +18,7 @@ namespace Charis;
  *
  * @link https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
  */
-class VerticalPillTabLayout extends Component
+class VerticalPillTabNavigation extends Component
 {
     #region Component overrides ------------------------------------------------
 

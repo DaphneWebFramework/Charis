@@ -13,13 +13,13 @@
 namespace Charis;
 
 /**
- * Represents a selectable item in a pill-based tab navigation.
+ * Represents a tab item in a pill-based tab navigation.
  *
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:
  *
  * - `:key` (string, required): A unique name used to associate this item with
- *   its corresponding content panel.
+ *   its corresponding content pane.
  * - `:active` (boolean): Indicates whether this item is initially active.
  *   Defaults to `false`.
  *
@@ -31,10 +31,8 @@ class PillTab extends Component
      * Constructs a new instance.
      *
      * @param ?array<string, mixed> $attributes
-     *   (Optional) An associative array where standard HTML attributes apply to
-     *   the wrapper element, and pseudo attributes configure inner components.
-     *   Pass `null` or an empty array to indicate no attributes. Defaults to
-     *   `null`.
+     *   (Optional) An associative array of standard HTML attributes and pseudo
+     *   attributes. Defaults to `null`.
      * @param string|Component|array<string|Component>|null $content
      *   (Optional) The content or child elements of the component. This can be
      *   a string, a `Component` instance, an array of strings and `Component`

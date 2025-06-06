@@ -20,6 +20,7 @@ namespace Charis;
  *
  * - `:label`: The text for the dropdown toggle link. Defaults to an empty
  *   string.
+ * - `:labelId`: The ID for the dropdown toggle link.
  * - `:disabled`: Boolean indicating whether the dropdown is disabled. Defaults
  *   to `false`.
  * - `:alignRight`: Boolean indicating whether the dropdown menu should be
@@ -44,6 +45,7 @@ class NavbarDropdown extends Component
     public function __construct(?array $attributes = null, array $items = [])
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
+        $labelId = $this->consumePseudoAttribute($attributes, ':labelId');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
         $alignRight = $this->consumePseudoAttribute($attributes, ':alignRight', false);
 
@@ -54,6 +56,9 @@ class NavbarDropdown extends Component
             'data-bs-toggle' => 'dropdown',
             'aria-expanded' => 'false'
         ];
+        if ($labelId !== null) {
+            $linkAttributes['id'] = $labelId;
+        }
         if ($disabled) {
             $linkAttributes['class'] .= ' disabled';
             $linkAttributes['aria-disabled'] = 'true';

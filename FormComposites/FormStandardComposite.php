@@ -26,6 +26,7 @@ use \Charis\FormHelpText;
  *   is provided, an ID is generated automatically.
  * - `:name`: The name attribute for the input element, used to identify the
  *   input's value during form submission.
+ * - `:value`: The initial value of the input element.
  * - `:label`: Text for the associated `<label>` element. If omitted, no label
  *   is rendered.
  * - `:help`: Additional descriptive text. If provided, a `<div>` element with
@@ -56,6 +57,7 @@ abstract class FormStandardComposite extends FormComposite
     {
         $id = $this->consumePseudoAttribute($attributes, ':id');
         $name = $this->consumePseudoAttribute($attributes, ':name');
+        $value = $this->consumePseudoAttribute($attributes, ':value');
         $label = $this->consumePseudoAttribute($attributes, ':label');
         $help = $this->consumePseudoAttribute($attributes, ':help');
         $placeholder = $this->consumePseudoAttribute($attributes, ':placeholder');
@@ -74,6 +76,9 @@ abstract class FormStandardComposite extends FormComposite
         }
         if ($name !== null) {
             $inputAttributes['name'] = $name;
+        }
+        if ($value !== null) {
+            $inputAttributes['value'] = $value;
         }
         if ($helpId !== null) {
             $inputAttributes['aria-describedby'] = $helpId;

@@ -35,15 +35,16 @@ trait Utility
      * @param array<string, mixed> $defaultAttributes
      *   Default attributes defined by the component.
      * @param array<int, string> $mutuallyExclusiveClassGroups
-     *   Mutually exclusive class groups to resolve conflicts. Each group is a
-     *   space-separated class names where only one class should survive.
+     *   (Optional) Mutually exclusive class groups to resolve conflicts. Each
+     *   group is a space-separated class names where only one class should
+     *   survive. Defaults to an empty array.
      * @return array<string, mixed>
      *   Final resolved attributes, suitable for rendering.
      */
     protected function mergeAttributes(
         ?array $userAttributes,
         array $defaultAttributes,
-        array $mutuallyExclusiveClassGroups
+        array $mutuallyExclusiveClassGroups = []
     ): array
     {
         static $classKey = 'class';
@@ -134,8 +135,8 @@ trait Utility
     }
 
     /**
-     * Returns and removes the specified pseudo attribute from the given
-     * attributes array.
+     * Returns and removes a pseudo attribute from the provided attributes
+     * array.
      *
      * @param ?array<string, mixed> $attributes
      *   An associative array of attributes. The array will be modified in place
@@ -147,8 +148,7 @@ trait Utility
      *   (Optional) The value to return if the key is not present or invalid.
      *   Defaults to `null`.
      * @return mixed
-     *   The value of the consumed pseudo attribute, or the default value if not
-     *   found.
+     *   The value of the pseudo attribute, or the default value if not found.
      */
     protected function consumePseudoAttribute(
         ?array &$attributes,
@@ -170,6 +170,55 @@ trait Utility
         $value = $attributes[$key];
         unset($attributes[$key]);
         return $value;
+    }
+
+    /**
+     * Returns and removes all scoped pseudo attributes from the provided
+     * attributes array.
+     *
+     * Scoped pseudo attributes use the syntax `:<scope>:<name>`, such as
+     * `:div:role`, where `div` is the scope and `role` is the attribute name.
+     * All matching attributes are extracted and returned in a new associative
+     * array with the prefix (e.g., `:div:`) removed from each key.
+     *
+     * This method is useful in composite components that encapsulate internal
+     * HTML elements, allowing callers to assign attributes to those elements
+     * without requiring the component to explicitly support every possible
+     * pseudo attribute that may need to be forwarded.
+     *
+     * @param ?array<string, mixed> $attributes
+     *   An associative array of attributes. The array will be modified in place
+     *   by removing the matching scoped pseudo attributes. Can be `null`.
+     * @param string $scope
+     *   The scope used to extract attributes (e.g., `div` matches `:div:*`).
+     *   Must not include colons.
+     * @return array<string, mixed>
+     *   An associative array of scoped pseudo attributes, with the prefix
+     *   (e.g., `:div:`) removed from each key.
+     */
+    protected function consumeScopedPseudoAttributes(
+        ?array &$attributes,
+        string $scope
+    ): array
+    {
+        if ($attributes === null) {
+            return [];
+        }
+        $result = [];
+        $scope = ":$scope:";
+        $scopeLength = \strlen($scope);
+        foreach ($attributes as $name => $value) {
+            if (\strncmp($name, $scope, $scopeLength) !== 0) {
+                continue;
+            }
+            $attribute = \substr($name, $scopeLength);
+            if ($attribute === '') { // e.g. ":div:"
+                continue;
+            }
+            $result[$attribute] = $value;
+            unset($attributes[$name]);
+        }
+        return $result;
     }
 
     /**

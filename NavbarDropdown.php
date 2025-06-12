@@ -13,18 +13,18 @@
 namespace Charis;
 
 /**
- * Represents a dropdown menu in a navigation bar.
+ * Represents a dropdown navigation item in a navigation bar.
  *
- * Aside from HTML attributes that apply to the wrapper element, this component
- * supports the following pseudo attributes in its constructor:
+ * Aside from HTML attributes that apply to the wrapper `<li>` element, this
+ * component supports the following pseudo attributes in its constructor:
  *
- * - `:label`: The text for the dropdown toggle link. Defaults to an empty
- *   string.
- * - `:id`: The ID attribute for the dropdown toggle link.
- * - `:disabled`: Boolean indicating whether the dropdown is disabled. Defaults
- *   to `false`.
- * - `:alignRight`: Boolean indicating whether the dropdown menu should be
- *   aligned to the right. Defaults to `false`.
+ * - `:label` (string): The text content of the item. Defaults to an empty string.
+ * - `:disabled` (boolean): Indicates whether the item is non-interactive.
+ *   Defaults to `false`.
+ * - `:link:*` (mixed): Additional HTML attributes forwarded to the internal
+ *   `<a>` element.
+ * - ':menu:*' (mixed): Additional HTML attributes forwarded to the internal
+ *   `<ul>` element.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */
@@ -35,39 +35,41 @@ class NavbarDropdown extends Component
      *
      * @param ?array<string, mixed> $attributes
      *   (Optional) An associative array where standard HTML attributes apply to
-     *   the wrapper element, and pseudo attributes configure inner components.
+     *   the wrapper element, and pseudo attributes configure internal structure.
      *   Pass `null` or an empty array to indicate no attributes. Defaults to
      *   `null`.
      * @param array<NavbarDropdownItem|NavbarDropdownDivider> $items
-     *   (Optional) The dropdown menu items to render inside the dropdown
-     *   container. Defaults to an empty array.
+     *   (Optional) The menu items to render inside the dropdown container.
+     *   Defaults to an empty array.
      */
     public function __construct(?array $attributes = null, array $items = [])
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
-        $id = $this->consumePseudoAttribute($attributes, ':id');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
-        $alignRight = $this->consumePseudoAttribute($attributes, ':alignRight', false);
 
-        $linkAttributes = [
-            'class' => 'nav-link dropdown-toggle',
-            'href' => '#',
-            'role' => 'button',
-            'data-bs-toggle' => 'dropdown',
-            'aria-expanded' => 'false'
-        ];
-        if ($id !== null) {
-            $linkAttributes['id'] = $id;
-        }
+        $linkAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'link'),
+            [
+                'class' => 'nav-link dropdown-toggle',
+                'href' => '#',
+                'role' => 'button',
+                'data-bs-toggle' => 'dropdown',
+                'aria-expanded' => 'false'
+            ]
+        );
+        $menuAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'menu'),
+            [
+                'class' => 'dropdown-menu'
+            ]
+        );
         if ($disabled) {
             $linkAttributes['class'] .= ' disabled';
             $linkAttributes['aria-disabled'] = 'true';
         }
         $content = [
             new Generic('a', $linkAttributes, $label),
-            new Generic('ul', [
-                'class' => 'dropdown-menu' . ($alignRight ? ' dropdown-menu-end' : '')
-            ], $items)
+            new Generic('ul', $menuAttributes, $items)
         ];
 
         parent::__construct($attributes, $content);

@@ -15,14 +15,15 @@ namespace Charis;
 /**
  * Represents an item inside a navbar dropdown menu.
  *
- * Aside from HTML attributes that apply to the wrapper element, this component
- * supports the following pseudo attributes in its constructor:
+ * Aside from HTML attributes that apply to the wrapper `<li>` element, this
+ * component supports the following pseudo attributes in its constructor:
  *
- * - `:label`: The text for the link. Defaults to an empty string.
- * - `:href`: The URL for the link. Defaults to `#`.
- * - `:id`: The ID attribute for the link. Defaults to `null`.
- * - `:disabled`: Boolean indicating whether the link is disabled. Defaults to
- *   `false`.
+ * - `:label` (string): The text content of the item. Defaults to an empty string.
+ * - `:href` (string): The target URL when the item is clicked. Defaults to "#".
+ * - `:disabled` (boolean): Indicates whether the item is non-interactive.
+ *   Defaults to `false`.
+ * - `:link:*` (mixed): Additional HTML attributes forwarded to the internal
+ *   `<a>` element.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav
  */
@@ -33,7 +34,7 @@ class NavbarDropdownItem extends Component
      *
      * @param ?array<string, mixed> $attributes
      *   (Optional) An associative array where standard HTML attributes apply to
-     *   the wrapper element, and pseudo attributes configure the inner anchor.
+     *   the wrapper element, and pseudo attributes configure internal structure.
      *   Pass `null` or an empty array to indicate no attributes. Defaults to
      *   `null`.
      */
@@ -41,23 +42,22 @@ class NavbarDropdownItem extends Component
     {
         $label = $this->consumePseudoAttribute($attributes, ':label', '');
         $href = $this->consumePseudoAttribute($attributes, ':href', '#');
-        $id = $this->consumePseudoAttribute($attributes, ':id');
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
-        $linkAttributes = [
-            'class' => 'dropdown-item',
-            'href' => $href
-        ];
-        if ($id !== null) {
-            $linkAttributes['id'] = $id;
-        }
+        $linkAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'link'),
+            [
+                'class' => 'dropdown-item',
+                'href' => $href
+            ]
+        );
         if ($disabled) {
             $linkAttributes['class'] .= ' disabled';
             $linkAttributes['aria-disabled'] = 'true';
         }
         $content = new Generic('a', $linkAttributes, $label);
 
-        parent::__construct(null, $content);
+        parent::__construct($attributes, $content);
     }
 
     #region Component overrides ------------------------------------------------

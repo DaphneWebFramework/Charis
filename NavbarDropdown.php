@@ -23,7 +23,7 @@ namespace Charis;
  *   Defaults to `false`.
  * - `:link:*` (mixed): Additional HTML attributes forwarded to the internal
  *   `<a>` element.
- * - ':menu:*' (mixed): Additional HTML attributes forwarded to the internal
+ * - `:menu:*` (mixed): Additional HTML attributes forwarded to the internal
  *   `<ul>` element.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navbar/#nav

@@ -24,10 +24,10 @@ namespace Charis;
  * - `:body` (mixed): The content of the modal body. Can be a string, a
  *   `Component` instance, or an array of components. Defaults to an empty
  *   string.
- * - `:footer-secondary-button-label` (string): The label for the secondary
- *   footer button. Defaults to "Close".
- * - `:footer-primary-button-label` (string): The label for the primary
- *   footer button. Defaults to "Save changes".
+ * - `:secondary-button-label` (string): The label for the secondary footer
+ *   button. Defaults to "Close".
+ * - `:primary-button-label` (string): The label for the primary footer button.
+ *   Defaults to "Save changes".
  * - `:footer` (mixed): The entire content of the footer. When provided,
  *   completely overrides the default secondary/primary buttons. Can be a
  *   string, a `Component` instance, or an array of components.
@@ -52,22 +52,22 @@ class Modal extends Component
         // 1
         $title = $this->consumePseudoAttribute($attributes, ':title', '');
         $body = $this->consumePseudoAttribute($attributes, ':body', '');
-        $footerSecondaryButtonLabel = $this->consumePseudoAttribute(
+        $secondaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
-            ':footer-secondary-button-label',
+            ':secondary-button-label',
             'Close'
         );
-        $footerPrimaryButtonLabel = $this->consumePseudoAttribute(
+        $primaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
-            ':footer-primary-button-label',
+            ':primary-button-label',
             'Save changes'
         );
         $footer = $this->consumePseudoAttribute($attributes, ':footer', [
             new Button([
                 'class' => 'btn-secondary',
                 'data-bs-dismiss' => 'modal'
-            ], $footerSecondaryButtonLabel),
-            new Button(null, $footerPrimaryButtonLabel)
+            ], $secondaryButtonLabel),
+            new Button(null, $primaryButtonLabel)
         ]);
         // 2
         $modalDialogAttributes = $this->mergeAttributes(

@@ -34,7 +34,8 @@ namespace Charis;
  *   Defaults to "Save changes".
  * - `:footer` (mixed): The entire content of the footer. When provided,
  *   completely overrides the default secondary/primary buttons. Can be a
- *   string, a `Component` instance, or an array of components.
+ *   string, a `Component` instance, or an array of components. If set to
+ *   `false`, the footer is entirely omitted.
  * - `:dialog:*` (mixed): Additional HTML attributes forwarded to the internal
  *   `<div class="modal-dialog">` element.
  *
@@ -53,6 +54,7 @@ class Modal extends Component
      */
     public function __construct(?array $attributes = null)
     {
+        // 1
         $title = $this->consumePseudoAttribute($attributes, ':title', '');
         $body = $this->consumePseudoAttribute($attributes, ':body', '');
         $secondaryButtonAttributes = $this->mergeAttributes(
@@ -85,27 +87,31 @@ class Modal extends Component
         );
         $modalTitleId = 'modal-title-' . \uniqid();
         $attributes['aria-labelledby'] = $modalTitleId;
-
+        // 2
+        $modalContentContent = [
+            new Generic('div', ['class' => 'modal-header'], [
+                new Generic('h5', [
+                    'class' => 'modal-title',
+                    'id' => $modalTitleId
+                ], $title),
+                new Generic('button', [
+                    'type' => 'button',
+                    'class' => 'btn-close',
+                    'data-bs-dismiss' => 'modal',
+                    'aria-label' => 'Close'
+                ])
+            ]),
+            new Generic('div', ['class' => 'modal-body'], $body)
+        ];
+        if ($footer !== false) {
+            $modalContentContent[] =
+                new Generic('div', ['class' => 'modal-footer'], $footer);
+        }
+        // 3
         parent::__construct(
             $attributes,
             new Generic('div', $modalDialogAttributes,
-                new Generic('div', ['class' => 'modal-content'], [
-                    new Generic('div', ['class' => 'modal-header'], [
-                        new Generic('h5', [
-                            'class' => 'modal-title',
-                            'id' => $modalTitleId
-                        ], $title),
-                        new Generic('button', [
-                            'type' => 'button',
-                            'class' => 'btn-close',
-                            'data-bs-dismiss' => 'modal',
-                            'aria-label' => 'Close'
-                        ])
-                    ]),
-                    new Generic('div', ['class' => 'modal-body'], $body),
-                    new Generic('div', ['class' => 'modal-footer'], $footer)
-                ])
-            )
+                new Generic('div', ['class' => 'modal-content'], $modalContentContent))
         );
     }
 

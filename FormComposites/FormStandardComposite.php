@@ -77,7 +77,7 @@ abstract class FormStandardComposite extends FormComposite
             $content[] = new FormLabel($labelAttributes, $label);
         }
 
-        $content[] = $this->createFormInputComponent($inputAttributes);
+        $content[] = $this->createFormControl($inputAttributes);
 
         if ($help !== null) {
             $attributeDefaults = [];

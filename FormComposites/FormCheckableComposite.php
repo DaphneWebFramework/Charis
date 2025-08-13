@@ -65,7 +65,7 @@ abstract class FormCheckableComposite extends FormComposite
 
         $content = [];
 
-        $content[] = $this->createFormInputComponent($inputAttributes);
+        $content[] = $this->createFormControl($inputAttributes);
 
         if ($label !== null) {
             $attributeDefaults = [];

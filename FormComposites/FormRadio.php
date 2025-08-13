@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormControl;
 use \Charis\FormControls\FormRadioInput;
 
 /**
@@ -24,7 +24,7 @@ class FormRadio extends FormCheckableComposite
 {
     #region FormComposite overrides --------------------------------------------
 
-    protected function createFormInputComponent(array $attributes): FormInput
+    protected function createFormControl(array $attributes): FormControl
     {
         return new FormRadioInput($attributes);
     }

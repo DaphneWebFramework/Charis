@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormControl;
 use \Charis\FormControls\FormPasswordInput;
 
 /**
@@ -22,7 +22,7 @@ class FormPasswordFL extends FormFloatingLabelComposite
 {
     #region FormComposite overrides --------------------------------------------
 
-    protected function createFormInputComponent(array $attributes): FormInput
+    protected function createFormControl(array $attributes): FormControl
     {
         return new FormPasswordInput($attributes);
     }

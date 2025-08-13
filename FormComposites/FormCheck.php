@@ -12,7 +12,7 @@
 
 namespace Charis\FormComposites;
 
-use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormControl;
 use \Charis\FormControls\FormCheckInput;
 
 /**
@@ -24,7 +24,7 @@ class FormCheck extends FormCheckableComposite
 {
     #region FormComposite overrides --------------------------------------------
 
-    protected function createFormInputComponent(array $attributes): FormInput
+    protected function createFormControl(array $attributes): FormControl
     {
         return new FormCheckInput($attributes);
     }

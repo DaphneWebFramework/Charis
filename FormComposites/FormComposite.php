@@ -13,7 +13,7 @@
 namespace Charis\FormComposites;
 
 use \Charis\Component;
-use \Charis\FormControls\FormInput;
+use \Charis\FormControls\FormControl;
 
 /**
  * Abstract base class for form composites, combining multiple components into a
@@ -30,14 +30,14 @@ abstract class FormComposite extends Component
     abstract protected function getCompositeClassAttribute(): string;
 
     /**
-     * Creates the form input component.
+     * Creates the form control.
      *
      * @param array<string, mixed> $attributes
-     *   Base attributes for the input component.
-     * @return FormInput
-     *   The form input component instance.
+     *   Base attributes for the form control.
+     * @return FormControl
+     *   The form control instance.
      */
-    abstract protected function createFormInputComponent(array $attributes): FormInput;
+    abstract protected function createFormControl(array $attributes): FormControl;
 
     #region Component overrides ------------------------------------------------
 

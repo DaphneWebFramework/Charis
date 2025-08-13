@@ -24,8 +24,12 @@ namespace Charis;
  * - `:body` (mixed): The content of the modal body. Can be a string, a
  *   `Component` instance, or an array of components. Defaults to an empty
  *   string.
+ * - `:secondary-button:*` (mixed): Additional HTML attributes forwarded to
+ *   the secondary footer button.
  * - `:secondary-button-label` (string): The label for the secondary footer
  *   button. Defaults to "Close".
+ * - `:primary-button:*` (mixed): Additional HTML attributes forwarded to
+ *   the primary footer button.
  * - `:primary-button-label` (string): The label for the primary footer button.
  *   Defaults to "Save changes".
  * - `:footer` (mixed): The entire content of the footer. When provided,
@@ -49,13 +53,22 @@ class Modal extends Component
      */
     public function __construct(?array $attributes = null)
     {
-        // 1
         $title = $this->consumePseudoAttribute($attributes, ':title', '');
         $body = $this->consumePseudoAttribute($attributes, ':body', '');
+        $secondaryButtonAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'secondary-button'),
+            ['class' => 'btn-secondary', 'data-bs-dismiss' => 'modal'],
+            Button::MUTUALLY_EXCLUSIVE_CLASS_ATTRIBUTE_GROUPS
+        );
         $secondaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
             ':secondary-button-label',
             'Close'
+        );
+        $primaryButtonAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'primary-button'),
+            [],
+            Button::MUTUALLY_EXCLUSIVE_CLASS_ATTRIBUTE_GROUPS
         );
         $primaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
@@ -63,21 +76,16 @@ class Modal extends Component
             'Save changes'
         );
         $footer = $this->consumePseudoAttribute($attributes, ':footer', [
-            new Button([
-                'class' => 'btn-secondary',
-                'data-bs-dismiss' => 'modal'
-            ], $secondaryButtonLabel),
-            new Button(null, $primaryButtonLabel)
+            new Button($secondaryButtonAttributes, $secondaryButtonLabel),
+            new Button($primaryButtonAttributes, $primaryButtonLabel)
         ]);
-        // 2
         $modalDialogAttributes = $this->mergeAttributes(
             $this->consumeScopedPseudoAttributes($attributes, 'dialog'),
             ['class' => 'modal-dialog']
         );
-        // 3
         $modalTitleId = 'modal-title-' . \uniqid();
         $attributes['aria-labelledby'] = $modalTitleId;
-        // 4
+
         parent::__construct(
             $attributes,
             new Generic('div', $modalDialogAttributes,

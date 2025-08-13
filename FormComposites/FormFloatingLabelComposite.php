@@ -22,21 +22,16 @@ use \Charis\FormHelpText;
  * Aside from HTML attributes that apply to the wrapper element, this component
  * supports the following pseudo attributes in its constructor:
  *
- * - `:id`: A unique identifier for the input element. If omitted and a `:label`
- *   is provided, an ID is generated automatically.
- * - `:name`: The name attribute for the input element, used to identify the
- *   input's value during form submission.
- * - `:value`: The initial value of the input element.
- * - `:label`: Text for the associated `<label>` element. If omitted, no label
- *   is rendered.
- * - `:help`: Additional descriptive text. If provided, a `<div>` element with
- *   the "form-text" class is rendered.
- * - `:autocomplete`: Provides a hint to browsers for autofilling the input
- *   field with previously entered data.
- * - `:disabled`: Boolean indicating whether the input should be disabled.
- *   Defaults to `false`.
- * - `:required`: Boolean indicating whether the input is required. Defaults to
- *   `false`.
+ * - `:label` (string): Text for the label element. If omitted, no label is
+ *   rendered.
+ * - `:label:*` (mixed): Additional HTML attributes forwarded to the label
+ *   element.
+ * - `:input:*` (mixed): Additional HTML attributes forwarded to the input
+ *   element.
+ * - `:help` (string): Text for additional help below the input. If omitted,
+ *   no help text is rendered.
+ * - `:help:*` (mixed): Additional HTML attributes forwarded to the help text
+ *   element.
  *
  * @link https://getbootstrap.com/docs/5.3/forms/floating-labels/
  */
@@ -53,48 +48,47 @@ abstract class FormFloatingLabelComposite extends FormComposite
      */
     public function __construct(?array $attributes = null)
     {
-        $id = $this->consumePseudoAttribute($attributes, ':id');
-        $name = $this->consumePseudoAttribute($attributes, ':name');
-        $value = $this->consumePseudoAttribute($attributes, ':value');
         $label = $this->consumePseudoAttribute($attributes, ':label');
         $help = $this->consumePseudoAttribute($attributes, ':help');
-        $autocomplete = $this->consumePseudoAttribute($attributes, ':autocomplete');
-        $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
-        $required = $this->consumePseudoAttribute($attributes, ':required', false);
 
-        if ($id === null && $label !== null) {
-            $id = 'form-input-' . \uniqid();
-        }
-        $helpId = $help !== null ? 'form-help-' . \uniqid() : null;
-
-        $inputAttributes = [];
-        if ($id !== null) {
-            $inputAttributes['id'] = $id;
-        }
-        if ($name !== null) {
-            $inputAttributes['name'] = $name;
-        }
-        if ($value !== null) {
-            $inputAttributes['value'] = $value;
-        }
-        if ($helpId !== null) {
-            $inputAttributes['aria-describedby'] = $helpId;
-        }
-        $inputAttributes['placeholder'] = ''; // mandatory for floating labels
-        if ($autocomplete !== null) {
-            $inputAttributes['autocomplete'] = $autocomplete;
-        }
-        $inputAttributes['disabled'] = $disabled;
-        $inputAttributes['required'] = $required;
-
-        $content = [
-            $this->createFormInputComponent($inputAttributes)
-        ];
+        $attributeDefaults = ['placeholder' => '']; // Mandatory for floating labels
         if ($label !== null) {
-            $content[] = new Label(['for' => $id], $label);
+            $attributeDefaults['id'] = 'form-input-' . \uniqid();
         }
         if ($help !== null) {
-            $content[] = new FormHelpText(['id' => $helpId], $help);
+            $attributeDefaults['aria-describedby'] = 'form-help-' . \uniqid();
+        }
+        $inputAttributes = $this->mergeAttributes(
+            $this->consumeScopedPseudoAttributes($attributes, 'input'),
+            $attributeDefaults
+        );
+
+        $content = [];
+
+        $content[] = $this->createFormInputComponent($inputAttributes);
+
+        if ($label !== null) {
+            $attributeDefaults = [];
+            if (\array_key_exists('id', $inputAttributes)) {
+                $attributeDefaults['for'] = $inputAttributes['id'];
+            }
+            $labelAttributes = $this->mergeAttributes(
+                $this->consumeScopedPseudoAttributes($attributes, 'label'),
+                $attributeDefaults
+            );
+            $content[] = new Label($labelAttributes, $label);
+        }
+
+        if ($help !== null) {
+            $attributeDefaults = [];
+            if (\array_key_exists('aria-describedby', $inputAttributes)) {
+                $attributeDefaults['id'] = $inputAttributes['aria-describedby'];
+            }
+            $helpAttributes = $this->mergeAttributes(
+                $this->consumeScopedPseudoAttributes($attributes, 'help'),
+                $attributeDefaults
+            );
+            $content[] = new FormHelpText($helpAttributes, $help);
         }
 
         parent::__construct($attributes, $content);

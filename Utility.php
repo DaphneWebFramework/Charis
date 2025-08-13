@@ -173,13 +173,12 @@ trait Utility
     }
 
     /**
-     * Returns and removes all scoped pseudo attributes from the provided
-     * attributes array.
+     * Returns and removes all scoped attributes from the provided attributes
+     * array.
      *
-     * Scoped pseudo attributes use the syntax `:<scope>:<name>`, such as
-     * `:div:role`, where `div` is the scope and `role` is the attribute name.
-     * All matching attributes are extracted and returned in a new associative
-     * array with the prefix (e.g., `:div:`) removed from each key.
+     * Scoped attributes use the syntax `:<scope>:<name>`, such as `:link:href`,
+     * where `link` is the scope and `href` is the attribute name. All matching
+     * attributes are extracted and returned in a new associative array.
      *
      * This method is useful in composite components that encapsulate internal
      * HTML elements, allowing callers to assign attributes to those elements
@@ -188,15 +187,15 @@ trait Utility
      *
      * @param ?array<string, mixed> $attributes
      *   An associative array of attributes. The array will be modified in place
-     *   by removing the matching scoped pseudo attributes. Can be `null`.
+     *   by removing the matching scoped attributes. Can be `null`.
      * @param string $scope
-     *   The scope used to extract attributes (e.g., `div` matches `:div:*`).
-     *   Must not include colons.
+     *   The scope used to extract attributes (e.g., `link` matches `:link:*`).
+     *   Must not include prefix colon.
      * @return array<string, mixed>
-     *   An associative array of scoped pseudo attributes, with the prefix
-     *   (e.g., `:div:`) removed from each key.
+     *   An associative array of HTML attributes, without any scope prefix.
+     *   If no matching attributes are found, an empty array is returned.
      */
-    protected function consumeScopedPseudoAttributes(
+    protected function consumeScopedAttributes(
         ?array &$attributes,
         string $scope
     ): array
@@ -212,7 +211,7 @@ trait Utility
                 continue;
             }
             $attribute = \substr($name, $scopeLength);
-            if ($attribute === '') { // e.g. ":div:"
+            if ($attribute === '') { // Scope without attribute name.
                 continue;
             }
             $result[$attribute] = $value;

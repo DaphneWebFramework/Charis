@@ -58,7 +58,7 @@ class Modal extends Component
         $title = $this->consumePseudoAttribute($attributes, ':title', '');
         $body = $this->consumePseudoAttribute($attributes, ':body', '');
         $secondaryButtonAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'secondary-button'),
+            $this->consumeScopedAttributes($attributes, 'secondary-button'),
             ['class' => 'btn-secondary', 'data-bs-dismiss' => 'modal'],
             Button::MUTUALLY_EXCLUSIVE_CLASS_ATTRIBUTE_GROUPS
         );
@@ -68,7 +68,7 @@ class Modal extends Component
             'Close'
         );
         $primaryButtonAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'primary-button'),
+            $this->consumeScopedAttributes($attributes, 'primary-button'),
             [],
             Button::MUTUALLY_EXCLUSIVE_CLASS_ATTRIBUTE_GROUPS
         );
@@ -82,7 +82,7 @@ class Modal extends Component
             new Button($primaryButtonAttributes, $primaryButtonLabel)
         ]);
         $modalDialogAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'dialog'),
+            $this->consumeScopedAttributes($attributes, 'dialog'),
             ['class' => 'modal-dialog']
         );
         $modalTitleId = 'modal-title-' . \uniqid();

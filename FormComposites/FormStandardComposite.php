@@ -59,7 +59,7 @@ abstract class FormStandardComposite extends FormComposite
             $attributeDefaults['aria-describedby'] = 'form-help-' . \uniqid();
         }
         $inputAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'input'),
+            $this->consumeScopedAttributes($attributes, 'input'),
             $attributeDefaults
         );
 
@@ -71,7 +71,7 @@ abstract class FormStandardComposite extends FormComposite
                 $attributeDefaults['for'] = $inputAttributes['id'];
             }
             $labelAttributes = $this->mergeAttributes(
-                $this->consumeScopedPseudoAttributes($attributes, 'label'),
+                $this->consumeScopedAttributes($attributes, 'label'),
                 $attributeDefaults
             );
             $content[] = new FormLabel($labelAttributes, $label);
@@ -85,7 +85,7 @@ abstract class FormStandardComposite extends FormComposite
                 $attributeDefaults['id'] = $inputAttributes['aria-describedby'];
             }
             $helpAttributes = $this->mergeAttributes(
-                $this->consumeScopedPseudoAttributes($attributes, 'help'),
+                $this->consumeScopedAttributes($attributes, 'help'),
                 $attributeDefaults
             );
             $content[] = new FormHelpText($helpAttributes, $help);

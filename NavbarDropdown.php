@@ -48,7 +48,7 @@ class NavbarDropdown extends Component
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         $linkAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'link'),
+            $this->consumeScopedAttributes($attributes, 'link'),
             [
                 'class' => 'nav-link dropdown-toggle',
                 'href' => '#',
@@ -58,7 +58,7 @@ class NavbarDropdown extends Component
             ]
         );
         $menuAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'menu'),
+            $this->consumeScopedAttributes($attributes, 'menu'),
             [
                 'class' => 'dropdown-menu'
             ]

@@ -48,7 +48,7 @@ class NavbarItem extends Component
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         $linkAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'link'),
+            $this->consumeScopedAttributes($attributes, 'link'),
             [
                 'class' => 'nav-link',
                 'href' => $href

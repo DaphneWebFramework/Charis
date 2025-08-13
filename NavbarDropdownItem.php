@@ -45,7 +45,7 @@ class NavbarDropdownItem extends Component
         $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
 
         $linkAttributes = $this->mergeAttributes(
-            $this->consumeScopedPseudoAttributes($attributes, 'link'),
+            $this->consumeScopedAttributes($attributes, 'link'),
             [
                 'class' => 'dropdown-item',
                 'href' => $href

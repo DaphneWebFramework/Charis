@@ -44,8 +44,8 @@ class NavbarDropdown extends Component
      */
     public function __construct(?array $attributes = null, array $items = [])
     {
-        $label = $this->consumePseudoAttribute($attributes, ':label', '');
-        $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $label = $this->consumePseudoAttribute($attributes, 'label', '');
+        $disabled = $this->consumePseudoAttribute($attributes, 'disabled', false);
 
         $linkAttributes = $this->mergeAttributes(
             $this->consumeScopedAttributes($attributes, 'link'),

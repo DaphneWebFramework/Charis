@@ -48,8 +48,8 @@ abstract class FormFloatingLabelComposite extends FormComposite
      */
     public function __construct(?array $attributes = null)
     {
-        $label = $this->consumePseudoAttribute($attributes, ':label');
-        $help = $this->consumePseudoAttribute($attributes, ':help');
+        $label = $this->consumePseudoAttribute($attributes, 'label');
+        $help = $this->consumePseudoAttribute($attributes, 'help');
 
         $attributeDefaults = ['placeholder' => '']; // Mandatory for floating labels
         if ($label !== null) {

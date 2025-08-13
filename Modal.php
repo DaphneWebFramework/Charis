@@ -55,8 +55,8 @@ class Modal extends Component
     public function __construct(?array $attributes = null)
     {
         // 1
-        $title = $this->consumePseudoAttribute($attributes, ':title', '');
-        $body = $this->consumePseudoAttribute($attributes, ':body', '');
+        $title = $this->consumePseudoAttribute($attributes, 'title', '');
+        $body = $this->consumePseudoAttribute($attributes, 'body', '');
         $secondaryButtonAttributes = $this->mergeAttributes(
             $this->consumeScopedAttributes($attributes, 'secondary-button'),
             ['class' => 'btn-secondary', 'data-bs-dismiss' => 'modal'],
@@ -64,7 +64,7 @@ class Modal extends Component
         );
         $secondaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
-            ':secondary-button-label',
+            'secondary-button-label',
             'Close'
         );
         $primaryButtonAttributes = $this->mergeAttributes(
@@ -74,10 +74,10 @@ class Modal extends Component
         );
         $primaryButtonLabel = $this->consumePseudoAttribute(
             $attributes,
-            ':primary-button-label',
+            'primary-button-label',
             'Save changes'
         );
-        $footer = $this->consumePseudoAttribute($attributes, ':footer', [
+        $footer = $this->consumePseudoAttribute($attributes, 'footer', [
             new Button($secondaryButtonAttributes, $secondaryButtonLabel),
             new Button($primaryButtonAttributes, $primaryButtonLabel)
         ]);

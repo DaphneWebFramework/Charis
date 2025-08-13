@@ -42,12 +42,12 @@ class TabPane extends Component
         ?array $attributes = null,
         string|Component|array|null $content = null
     ) {
-        $key = $this->consumePseudoAttribute($attributes, ':key');
+        $key = $this->consumePseudoAttribute($attributes, 'key');
         if (!\is_string($key) || $key === '') {
             throw new \InvalidArgumentException(
                 'The ":key" attribute must be a non-empty string.');
         }
-        $active = $this->consumePseudoAttribute($attributes, ':active', false);
+        $active = $this->consumePseudoAttribute($attributes, 'active', false);
 
         $id = "pane-{$key}";
         $tabId = "tab-{$key}";

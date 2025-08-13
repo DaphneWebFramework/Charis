@@ -40,9 +40,9 @@ class NavbarDropdownItem extends Component
      */
     public function __construct(?array $attributes = null)
     {
-        $label = $this->consumePseudoAttribute($attributes, ':label', '');
-        $href = $this->consumePseudoAttribute($attributes, ':href', '#');
-        $disabled = $this->consumePseudoAttribute($attributes, ':disabled', false);
+        $label = $this->consumePseudoAttribute($attributes, 'label', '');
+        $href = $this->consumePseudoAttribute($attributes, 'href', '#');
+        $disabled = $this->consumePseudoAttribute($attributes, 'disabled', false);
 
         $linkAttributes = $this->mergeAttributes(
             $this->consumeScopedAttributes($attributes, 'link'),

@@ -41,9 +41,9 @@ class Spinner extends Component
     public function __construct(?array $attributes = null)
     {
         // 1
-        $type = $this->consumePseudoAttribute($attributes, ':type', 'border');
-        $size = $this->consumePseudoAttribute($attributes, ':size');
-        $label = $this->consumePseudoAttribute($attributes, ':label', 'Loading...');
+        $type = $this->consumePseudoAttribute($attributes, 'type', 'border');
+        $size = $this->consumePseudoAttribute($attributes, 'size');
+        $label = $this->consumePseudoAttribute($attributes, 'label', 'Loading...');
         // 2
         if (!\in_array($type, ['border', 'grow'], true)) {
             $type = 'border';

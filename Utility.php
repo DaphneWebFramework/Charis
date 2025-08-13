@@ -142,8 +142,8 @@ trait Utility
      *   An associative array of attributes. The array will be modified in place
      *   by removing the specified pseudo attribute if found. Can be `null`.
      * @param string $key
-     *   The key of the pseudo attribute to consume. Keys must match the defined
-     *   pattern and are case-sensitive.
+     *   The key of the pseudo attribute to consume. Must be given without a
+     *   colon prefix (e.g., `label` for `:label`).
      * @param mixed $defaultValue
      *   (Optional) The value to return if the key is not present or invalid.
      *   Defaults to `null`.
@@ -156,15 +156,8 @@ trait Utility
         mixed $defaultValue = null
     ): mixed
     {
-        // Pseudo attributes must start with `:` and can only contain
-        // alphanumeric characters and hyphens (`-`). The first character
-        // after the `:` must be an alphabetic character.
-        static $pseudoAttributeNamePattern = '/^:[a-zA-Z][a-zA-Z0-9\-]*$/';
-
-        if ($attributes === null
-         || !\preg_match($pseudoAttributeNamePattern, $key)
-         || !\array_key_exists($key, $attributes))
-        {
+        $key = ":$key";
+        if ($attributes === null || !\array_key_exists($key, $attributes)) {
             return $defaultValue;
         }
         $value = $attributes[$key];

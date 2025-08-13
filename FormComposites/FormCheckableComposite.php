@@ -48,8 +48,8 @@ abstract class FormCheckableComposite extends FormComposite
      */
     public function __construct(?array $attributes = null)
     {
-        $label = $this->consumePseudoAttribute($attributes, ':label');
-        $help = $this->consumePseudoAttribute($attributes, ':help');
+        $label = $this->consumePseudoAttribute($attributes, 'label');
+        $help = $this->consumePseudoAttribute($attributes, 'help');
 
         $attributeDefaults = [];
         if ($label !== null) {

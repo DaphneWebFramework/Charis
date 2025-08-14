@@ -29,6 +29,9 @@ namespace Charis;
  */
 class Spinner extends Component
 {
+    private readonly string $type;
+    private readonly ?string $size;
+
     /**
      * Constructs a new instance.
      *
@@ -40,33 +43,19 @@ class Spinner extends Component
      */
     public function __construct(?array $attributes = null)
     {
-        // 1
         $type = $this->consumePseudoAttribute($attributes, 'type', 'border');
-        $size = $this->consumePseudoAttribute($attributes, 'size');
-        $label = $this->consumePseudoAttribute($attributes, 'label', 'Loading...');
-        // 2
         if (!\in_array($type, ['border', 'grow'], true)) {
             $type = 'border';
         }
+        $size = $this->consumePseudoAttribute($attributes, 'size');
         if ($size !== null && $size !== 'sm') {
             $size = null;
         }
-        // 3
-        $classes = null;
-        if ($type === 'grow') {
-            $classes[] = 'spinner-grow';
-        }
-        if ($size === 'sm') {
-            $classes[] = "spinner-{$type}-sm";
-        }
-        // 4
-        if ($classes !== null) {
-            $attributes['class'] = $this->combineClassAttributes(
-                $attributes['class'] ?? '',
-                \implode(' ', $classes)
-            );
-        }
-        // 5
+        $label = $this->consumePseudoAttribute($attributes, 'label', 'Loading...');
+
+        $this->type = $type;
+        $this->size = $size;
+
         $content = new Generic('span', ['class' => 'visually-hidden'], $label);
         parent::__construct($attributes, $content);
     }
@@ -81,7 +70,8 @@ class Spinner extends Component
     protected function getDefaultAttributes(): array
     {
         return [
-            'class' => 'spinner-border',
+            'class' => "spinner-{$this->type}"
+                     . ($this->size === 'sm' ? " spinner-{$this->type}-sm" : ''),
             'role' => 'status'
         ];
     }

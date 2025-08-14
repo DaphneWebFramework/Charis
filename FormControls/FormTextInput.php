@@ -21,9 +21,13 @@ class FormTextInput extends FormInput
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'type' => 'text'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'type' => 'text'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

@@ -21,9 +21,13 @@ class FormEmailInput extends FormInput
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'type' => 'email'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'type' => 'email'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

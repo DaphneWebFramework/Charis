@@ -26,8 +26,11 @@ class FormSwitch extends FormCheckableComposite
 
     protected function getCompositeClassAttribute(): string
     {
-        return $this->combineClassAttributes(
-            parent::getCompositeClassAttribute(), 'form-switch');
+        return $this->resolveClassAttributes(
+            'form-switch',
+            parent::getCompositeClassAttribute(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     protected function createFormControl(array $attributes): FormControl

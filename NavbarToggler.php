@@ -29,14 +29,18 @@ class NavbarToggler extends Button
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'class' => 'navbar-toggler',
-            'data-bs-toggle' => 'collapse',
-            'data-bs-target' => '',
-            'aria-controls' => '',
-            'aria-expanded' => 'false',
-            'aria-label' => 'Toggle navigation'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'navbar-toggler -btn -btn-primary',
+                'data-bs-toggle' => 'collapse',
+                'data-bs-target' => '',
+                'aria-controls' => '',
+                'aria-expanded' => 'false',
+                'aria-label' => 'Toggle navigation'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

@@ -111,30 +111,6 @@ trait Utility
     }
 
     /**
-     * Merges two `class` attribute strings into a single string with duplicates
-     * removed.
-     *
-     * This method does not support negative class directives.
-     *
-     * @param string $classes1
-     *   A space-separated string of class names.
-     * @param string $classes2
-     *   Another space-separated string of class names.
-     * @return string
-     *   A space-separated string containing all unique class names.
-     */
-    protected function combineClassAttributes(
-        string $classes1,
-        string $classes2
-    ): string
-    {
-        return \implode(' ', \array_unique(\array_merge(
-            self::parseClassAttribute($classes1),
-            self::parseClassAttribute($classes2)
-        )));
-    }
-
-    /**
      * Returns and removes a pseudo attribute from the provided attributes
      * array.
      *

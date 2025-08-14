@@ -23,11 +23,16 @@ class FormSwitchInput extends FormInput
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'class' => 'form-check-input',
-            'type' => 'checkbox',
-            'role' => 'switch'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'form-check-input',
+                'type' => 'checkbox',
+                'role' => 'switch',
+                'switch' => true // Enables haptics on mobile Safari (iOS 17.4+)
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

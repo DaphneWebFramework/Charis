@@ -21,9 +21,13 @@ class FormLabel extends Label
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'class' => 'form-label'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'form-label'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     protected function getMutuallyExclusiveClassAttributeGroups(): array

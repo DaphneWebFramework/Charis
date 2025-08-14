@@ -23,11 +23,15 @@ class FormRadioInput extends FormInput
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'class' => 'form-check-input',
-            'type' => 'radio',
-            'name' => ''
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'form-check-input',
+                'type' => 'radio',
+                'name' => ''
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

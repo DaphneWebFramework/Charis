@@ -23,13 +23,13 @@ class NavbarCollapse extends Collapse
 
     protected function getDefaultAttributes(): array
     {
-        $parentAttributes = parent::getDefaultAttributes();
-        return \array_merge($parentAttributes, [
-            'class' => $this->combineClassAttributes(
-                $parentAttributes['class'] ?? '',
-                'navbar-collapse'
-            )
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'navbar-collapse'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

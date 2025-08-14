@@ -23,9 +23,13 @@ class FormCheckLabel extends FormLabel
 
     protected function getDefaultAttributes(): array
     {
-        return \array_merge(parent::getDefaultAttributes(), [
-            'class' => 'form-check-label'
-        ]);
+        return $this->mergeAttributes(
+            [
+                'class' => 'form-check-label'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     #endregion Component overrides

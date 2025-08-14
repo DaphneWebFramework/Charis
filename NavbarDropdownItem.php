@@ -55,8 +55,8 @@ class NavbarDropdownItem extends Component
             $linkAttributes['class'] .= ' disabled';
             $linkAttributes['aria-disabled'] = 'true';
         }
-        $content = new Generic('a', $linkAttributes, $label);
 
+        $content = new Generic('a', $linkAttributes, $label);
         parent::__construct($attributes, $content);
     }
 

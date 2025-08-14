@@ -18,8 +18,9 @@ namespace Charis;
  * Aside from HTML attributes, this component supports the following pseudo
  * attributes in its constructor:
  *
- * - `:key` (string, required): A unique name used to associate this pane with
- *   its corresponding tab item.
+ * - `:key` (string): A unique name used to associate this pane with its
+ *   corresponding tab item. This must be provided and must be a non-empty
+ *   string.
  * - `:active` (boolean): Indicates whether this pane is initially visible.
  *   Defaults to `false`.
  *
@@ -27,6 +28,9 @@ namespace Charis;
  */
 class TabPane extends Component
 {
+    private readonly string $key;
+    private readonly bool $active;
+
     /**
      * Constructs a new instance.
      *
@@ -37,6 +41,8 @@ class TabPane extends Component
      *   (Optional) The content or child elements of the component. This can be
      *   a string, a `Component` instance, an array of strings and `Component`
      *   instances, or `null` for no content. Defaults to `null`.
+     * @throws \InvalidArgumentException
+     *   If the `:key` pseudo attribute is not provided or is an empty string.
      */
     public function __construct(
         ?array $attributes = null,
@@ -48,19 +54,12 @@ class TabPane extends Component
                 'The ":key" attribute must be a non-empty string.');
         }
         $active = $this->consumePseudoAttribute($attributes, 'active', false);
-
-        $id = "pane-{$key}";
-        $tabId = "tab-{$key}";
-
-        $attributes ??= [];
-        $attributes['id'] ??= $id;
-        if ($active) {
-            $attributes['class'] = $this->combineClassAttributes(
-                $attributes['class'] ?? '',
-                'show active'
-            );
+        if (!\is_bool($active)) {
+            $active = false;
         }
-        $attributes['aria-labelledby'] ??= $tabId;
+
+        $this->key = $key;
+        $this->active = $active;
 
         parent::__construct($attributes, $content);
     }
@@ -75,10 +74,10 @@ class TabPane extends Component
     protected function getDefaultAttributes(): array
     {
         return [
-            'id' => '',
-            'class' => 'tab-pane fade',
+            'id' => "pane-{$this->key}",
+            'class' => 'tab-pane fade' . ($this->active ? ' show active' : ''),
             'role' => 'tabpanel',
-            'aria-labelledby' => '',
+            'aria-labelledby' => "tab-{$this->key}",
             'tabindex' => '0'
         ];
     }

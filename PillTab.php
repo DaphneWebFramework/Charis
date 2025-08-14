@@ -18,15 +18,19 @@ namespace Charis;
  * Aside from HTML attributes, this component supports the following pseudo
  * attributes in its constructor:
  *
- * - `:key` (string, required): A unique name used to associate this item with
- *   its corresponding content pane.
- * - `:active` (boolean): Indicates whether this item is initially active.
+ * - `:key` (string): A unique name used to associate this tab item with its
+ *   corresponding pane. This must be provided and must be a non-empty
+ *   string.
+ * - `:active` (boolean): Indicates whether this tab item is initially active.
  *   Defaults to `false`.
  *
  * @link https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
  */
 class PillTab extends Component
 {
+    private readonly string $key;
+    private readonly bool $active;
+
     /**
      * Constructs a new instance.
      *
@@ -37,6 +41,8 @@ class PillTab extends Component
      *   (Optional) The content or child elements of the component. This can be
      *   a string, a `Component` instance, an array of strings and `Component`
      *   instances, or `null` for no content. Defaults to `null`.
+     * @throws \InvalidArgumentException
+     *   If the `:key` pseudo attribute is not provided or is an empty string.
      */
     public function __construct(
         ?array $attributes = null,
@@ -48,25 +54,15 @@ class PillTab extends Component
                 'The ":key" attribute must be a non-empty string.');
         }
         $active = $this->consumePseudoAttribute($attributes, 'active', false);
-
-        $id = "tab-{$key}";
-        $paneId = "pane-{$key}";
-
-        $attributes ??= [];
-        $attributes['id'] ??= $id;
-        if ($active) {
-            if (($attributes['disabled'] ?? false) === true) {
-                $active = false;
-            } else {
-                $attributes['class'] = $this->combineClassAttributes(
-                    $attributes['class'] ?? '',
-                    'active'
-                );
-            }
+        if (!\is_bool($active)) {
+            $active = false;
         }
-        $attributes['data-bs-target'] ??= "#{$paneId}";
-        $attributes['aria-controls'] ??= $paneId;
-        $attributes['aria-selected'] = $active ? 'true' : 'false';
+        if ($active && ($attributes['disabled'] ?? false) === true) {
+            $active = false; // Disabled tabs cannot be active
+        }
+
+        $this->key = $key;
+        $this->active = $active;
 
         parent::__construct($attributes, $content);
     }
@@ -81,14 +77,14 @@ class PillTab extends Component
     protected function getDefaultAttributes(): array
     {
         return [
-            'id' => '',
-            'class' => 'nav-link',
+            'id' => "tab-{$this->key}",
+            'class' => 'nav-link' . ($this->active ? ' active' : ''),
             'type' => 'button',
             'role' => 'tab',
             'data-bs-toggle' => 'pill',
-            'data-bs-target' => '#',
-            'aria-controls' => '',
-            'aria-selected' => ''
+            'data-bs-target' => "#pane-{$this->key}",
+            'aria-controls' => "pane-{$this->key}",
+            'aria-selected' => $this->active ? 'true' : 'false'
         ];
     }
 

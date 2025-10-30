@@ -30,6 +30,7 @@ class NavbarBrand extends Component
     {
         return [
             'class' => 'navbar-brand',
+            'translate' => 'no',
             'href' => '#'
         ];
     }

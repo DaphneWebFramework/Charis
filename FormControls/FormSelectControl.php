@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 /**
- * FormControl.php
+ * FormSelectControl.php
  *
- * (C) 2024 by Eylem Ugurel
+ * (C) 2025 by Eylem Ugurel
  *
  * Licensed under a Creative Commons Attribution 4.0 International License.
  *
@@ -12,28 +12,33 @@
 
 namespace Charis\FormControls;
 
-use \Charis\Component;
-
 /**
- * Abstract base class for form controls, defining common attributes and
- * behaviors.
- *
- * @link https://getbootstrap.com/docs/5.3/forms/form-control/
+ * Represents a select control.
  */
-abstract class FormControl extends Component
+class FormSelectControl extends FormControl
 {
     #region Component overrides ------------------------------------------------
 
+    protected function getTagName(): string
+    {
+        return 'select';
+    }
+
     protected function getDefaultAttributes(): array
     {
-        return ['class' => 'form-control'];
+        return $this->mergeAttributes(
+            [
+                'class' => 'form-select'
+            ],
+            parent::getDefaultAttributes(),
+            parent::getMutuallyExclusiveClassAttributeGroups()
+        );
     }
 
     protected function getMutuallyExclusiveClassAttributeGroups(): array
     {
         return [
-            'form-control form-control-plaintext form-check-input form-select',
-            'form-control-lg form-control-sm'
+            'form-select-lg form-select-sm'
         ];
     }
 

@@ -27,7 +27,8 @@ class Form extends Component
     protected function getDefaultAttributes(): array
     {
         return [
-            'spellcheck' => 'false'
+            'spellcheck' => 'false',
+            'autocorrect' => 'off'
         ];
     }
 

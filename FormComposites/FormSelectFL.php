@@ -14,6 +14,7 @@ namespace Charis\FormComposites;
 
 use \Charis\FormControls\FormControl;
 use \Charis\FormControls\FormSelectControl;
+use \Charis\Option; // for the correct types in the generated documents
 
 /**
  * Represents a select with a floating label and optional help text.
